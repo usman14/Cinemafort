@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_marginLeft="10dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+<RelativeLayout
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="700dp">
+    <FrameLayout
+        android:id="@+id/fl_HealthData_Withings"
+        android:visibility="invisible"
+        android:layout_width="384dp"
+        android:layout_height="511dp" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/linear_layout_movie_detail"
+        android:layout_marginLeft="10dp">
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/greenstar"
+            android:id="@+id/img_btn_movie_detail_rate"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rate"
+            android:layout_marginTop="8dp"
+
+            android:id="@+id/tv_movie_detail_rate"
+            android:layout_below="@+id/img_btn_movie_detail_rate"
+            android:layout_alignLeft="@+id/img_btn_movie_detail_rate"/>
+
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/img_view_movie_detail_add"
+            android:background="@drawable/add"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@+id/img_btn_movie_detail_rate"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_movie_detail_add"
+            android:layout_marginTop="8dp"
+            android:text="ADD"
+            android:layout_below="@+id/img_view_movie_detail_add"
+            android:layout_alignRight="@+id/img_view_movie_detail_add"/>
+        <ImageView
+            android:layout_marginTop="10dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="50dp"
+            android:background="@drawable/moviedb"
+            android:layout_toRightOf="@id/img_view_movie_detail_add"
+            android:id="@+id/img_view_movie_detail_rating_one"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/img_view_movie_detail_rating_one"
+            android:layout_alignStart="@+id/img_view_movie_detail_rating_one"
+            android:id="@+id/tv_movie_detail_one_rating_one"/>
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/imdb_logo"
+
+            android:layout_toRightOf="@id/img_view_movie_detail_rating_one"
+            android:id="@+id/img_view_movie_detail_rating_two"
+            />
+
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_movie_detail_one_rating_two"
+            android:layout_alignStart="@+id/img_view_movie_detail_rating_two"
+            android:layout_below="@id/img_view_movie_detail_rating_two"
+            />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textStyle="bold"
+        android:maxLines="6"
+
+        android:layout_below="@id/linear_layout_movie_detail"
+        android:id="@+id/tv_movie_detail_one_descrip"/>
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="@string/releasedate"
+        android:textStyle="bold"
+        android:layout_marginTop="25dp"
+        android:layout_below="@id/tv_movie_detail_one_descrip"
+        android:id="@+id/tv_movie_detail_one_release_date"/>
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_marginLeft="10dp"
+        android:layout_height="wrap_content"
+        android:text="@string/director"
+        android:textStyle="bold"
+        android:layout_below="@+id/tv_movie_detail_one_release_date"
+        android:id="@+id/tv_movie_detail_one_director"/>
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="@string/budget"
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"
+
+        android:layout_below="@+id/tv_movie_detail_one_director"
+        android:id="@+id/tv_movie_detail_one_budget"/>
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="@string/revenue"
+        android:textStyle="bold"
+
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/tv_movie_detail_one_budget"
+        android:id="@+id/tv_movie_detail_one_revenue"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_movie_detail_one_release_date"
+        android:id="@+id/tv_movie_detail_one_dvd_release_date_one"
+        android:layout_toRightOf="@+id/tv_movie_detail_one_release_date"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_movie_detail_one_release_date"
+        android:id="@+id/tv_movie_detail_one_director_one"
+        android:layout_toRightOf="@+id/tv_movie_detail_one_director"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_movie_detail_one_director_one"
+        android:id="@+id/tv_movie_detail_one_budget_one"
+        android:layout_toRightOf="@+id/tv_movie_detail_one_director"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_movie_detail_one_budget_one"
+        android:id="@+id/tv_movie_detail_one_revenue_one"
+        android:layout_toRightOf="@+id/tv_movie_detail_one_director"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Trailers"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:id="@+id/tv_movie_detail_one_trailer"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/tv_movie_detail_one_revenue"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+
+        android:layout_below="@+id/tv_movie_detail_one_trailer"
+        android:id="@+id/recyclerview_movie_detail_trailer"></android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Similiar Movies"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/tv_movie_detail_one_similiar_movies"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/recyclerview_movie_detail_trailer"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/tv_movie_detail_one_similiar_movies"
+        android:id="@+id/recyclerview_movie_detail_similiar_movies"></android.support.v7.widget.RecyclerView>
+</RelativeLayout>
+
+</LinearLayout>
+</ScrollView>

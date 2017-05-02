@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="2dip">
+
+
+    <RatingBar
+        android:id="@+id/ratingbar_rating_bar"
+        style="?android:attr/ratingBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:isIndicator="false"
+        android:numStars="5"
+        android:rating="2"
+        android:stepSize="0.5" />
+
+    <Button
+        android:id="@+id/btn_rating_bar_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:focusable="false"
+        android:text="Rate"
+        android:layout_below="@id/ratingbar_rating_bar"
+        android:layout_alignEnd="@id/ratingbar_rating_bar"
+        android:layout_gravity="center"
+        android:textColor="#FFF8C6"
+        android:textSize="10dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_rating_bar_cancel"
+        android:textSize="10dp"
+        android:layout_margin="5dp"
+
+        android:layout_below="@id/ratingbar_rating_bar"
+        android:layout_toLeftOf="@id/btn_rating_bar_rate"
+        android:text="Cancel"
+        />
+
+</RelativeLayout>

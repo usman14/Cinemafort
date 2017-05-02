@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/rl_fragment_discover">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="36dp"
+            android:text="2017"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:id="@+id/tv_fragment_discover_year_one"/>
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:id="@+id/img1"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/dropdown"
+            android:layout_toRightOf="@id/tv_fragment_discover_year_one"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="36dp"
+            android:text="2017"
+
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_marginLeft="40dp"
+
+            android:layout_toRightOf="@id/img1"
+            android:id="@+id/tv_fragment_discover_year_two"/>
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:id="@+id/img2"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/dropdown"
+            android:layout_toRightOf="@id/tv_fragment_discover_year_two"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="36dp"
+            android:text="ALL"
+            android:layout_marginLeft="40dp"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_toRightOf="@+id/img2"
+            android:id="@+id/tv_fragment_discover_category"/>
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:id="@+id/img3"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/dropdown"
+            android:layout_toRightOf="@id/tv_fragment_discover_category"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="36dp"
+            android:layout_marginLeft="40dp"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_toRightOf="@+id/img3"
+            android:id="@+id/tv_fragment_discover_sorting"/>
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:id="@+id/img4"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/dropdown"
+            android:layout_toRightOf="@id/tv_fragment_discover_sorting"/>
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="14dp"
+        android:layout_marginLeft="15dp"
+        android:layout_below="@+id/rl_fragment_discover"
+        android:id="@+id/rv_fragment_discover"></android.support.v7.widget.RecyclerView>
+</RelativeLayout>

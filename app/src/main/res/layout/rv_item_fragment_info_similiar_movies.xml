@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="160dp"
+    android:layout_marginRight="10dp"
+    android:id="@+id/rl_fragment_info_similiar_movies"
+    android:layout_height="match_parent">
+<ImageView
+    android:layout_width="160dp"
+    android:layout_height="110dp"
+    android:id="@+id/img_view_fragment_info_similiar_movies"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_alignStart="@+id/img_view_fragment_info_similiar_movies"
+        android:layout_below="@id/img_view_fragment_info_similiar_movies"
+        android:id="@+id/tv_fragment_info_similiar_movies_title"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+
+        android:layout_below="@+id/tv_fragment_info_similiar_movies_title"
+        android:id="@+id/tv_fragment_info_similiar_movies_year"/>
+
+</RelativeLayout>
