@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+    android:background="@color/darkred">
+
+
+    <ImageView
+        android:id="@+id/img_view_movie_detail"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/img_view_movie_big_pic_height"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+
+    <ImageView
+        android:id="@+id/img_view_movie_detail_1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_horizontal"
+        app:layout_constraintRight_toLeftOf="@+id/guideline_vertical"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@android:id/tabhost"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"/>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.45"/>
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline_horizontal"
+        app:layout_constraintGuide_percent="0.22"
+        android:orientation="horizontal" />
+
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/rl_detail_activity"
+        app:layout_constraintTop_toBottomOf="@+id/img_view_movie_detail"
+        app:layout_constraintLeft_toRightOf="@+id/img_view_movie_detail_1"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <ImageView
+            android:layout_width="@dimen/width_black_circle"
+            android:layout_height="@dimen/height_black_circle"
+            android:background="@drawable/blackcircle"
+            android:id="@+id/img_view_movie_detail_date"
+            android:layout_marginLeft="@dimen/detail_activity_tv_margin"
+            android:layout_marginTop="15dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_movie_detail_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/detail_activity_tv_margin"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
+            android:layout_toRightOf="@+id/img_view_movie_detail_date"
+            />
+
+
+        <ImageView
+            android:layout_width="@dimen/width_black_circle"
+            android:layout_height="@dimen/height_black_circle"
+            android:id="@+id/img_view_movie_detail_duration"
+            android:background="@drawable/blackcircle"
+            android:layout_marginTop="@dimen/detail_activity_tv_margin"
+            android:layout_marginLeft="@dimen/detail_activity_tv_margin"
+            android:layout_toRightOf="@+id/tv_movie_detail_year"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_movie_detail_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/detail_activity_tv_margin"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/img_view_movie_detail_duration"
+            android:textColor="@color/white"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_movie_detail_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/detail_activity_tv_margin"
+            android:layout_marginLeft="@dimen/detail_activity_tv_margin"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:layout_below="@+id/tv_movie_detail_duration"
+            android:textColor="@color/white"
+            android:layout_marginRight="8dp"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_movie_detail_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:textStyle="italic"
+            android:textColor="@color/white"
+            android:layout_marginRight="8dp"
+            android:layout_below="@+id/tv_movie_detail_title"
+
+            />
+
+
+
+    </RelativeLayout>
+
+
+    <TabHost android:layout_height="500dp"
+        android:layout_width="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/rl_detail_activity"
+        android:id="@android:id/tabhost"
+        android:layout_marginTop="8dp">
+
+
+        <LinearLayout android:orientation="vertical"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+
+            <HorizontalScrollView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/hScrollView"
+                android:scrollbars="none"
+                android:background="@color/colorAccent"
+                android:fillViewport="true">
+
+                <TabWidget
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+
+                    android:id="@android:id/tabs"> </TabWidget>
+
+            </HorizontalScrollView>
+
+
+            <FrameLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:id="@android:id/tabcontent">
+
+            <android.support.v4.view.ViewPager
+                android:layout_height="match_parent"
+                android:layout_width="match_parent" android:id="@+id/viewPager"/>
+
+        </FrameLayout>
+
+        </LinearLayout>
+
+    </TabHost>
+
+
+</android.support.constraint.ConstraintLayout>
+
+</android.support.v4.widget.NestedScrollView>

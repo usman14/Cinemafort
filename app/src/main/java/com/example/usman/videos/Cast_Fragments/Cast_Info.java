@@ -1,28 +1,21 @@
 package com.example.usman.videos.Cast_Fragments;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.example.usman.videos.ADAPTERS.Movie_Cast_Adapter;
-import com.example.usman.videos.Activity_Cast;
 import com.example.usman.videos.INTERFACES.ApiInterface;
-import com.example.usman.videos.INTERFACES.Listener;
-import com.example.usman.videos.POJO.Cast_one;
-import com.example.usman.videos.POJO.CastCrew;
+import com.example.usman.videos.POJO.Person;
 import com.example.usman.videos.R;
 import com.example.usman.videos.UTILITIES.ApiClient;
 import com.example.usman.videos.UTILITIES.Global;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,55 +25,41 @@ import retrofit2.Response;
  * Created by usman on 4/18/2017.
  */
 
-public class Cast_Info extends Fragment {
+public class Cast_Info  extends Fragment {
+    TextView born,birthplace,descripition;
+    int castid;
     SharedPreferences sharedPreferences;
-    int value;
-    Movie_Cast_Adapter movie_cast_adapter;
-    RecyclerView recyclerview;
+    ImageView imageView;
+
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v=inflater.inflate(R.layout.recycler_view_simple,container,false);
-        recyclerview=(RecyclerView)v.findViewById(R.id.rv_fragment_cast);
-        sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getContext());
-        value=sharedPreferences.getInt("movie_id",0);
-        recyclerview=(RecyclerView)v.findViewById(R.id.rv_fragment_cast);
-        Init();
-
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        View v=inflater.inflate(R.layout.cast_activity_fragment_info,container,false);
+        sharedPreferences=PreferenceManager.getDefaultSharedPreferences(getActivity());
+        castid =sharedPreferences.getInt("cast_id",0);
+        birthplace=(TextView)v.findViewById(R.id.tv_cast_activity_fragment_info_birthplace_1);
+        born=(TextView)v.findViewById(R.id.tv_cast_activity_fragment_info_born_1);
+        descripition=(TextView)v.findViewById(R.id.tv_cast_activity_fragment_info_desc);
+        Get_Data();
         return v;
+
     }
-
-    private void Init() {
-
-        final ApiInterface apiservice= ApiClient.getClient().create(ApiInterface.class);
-        Call<CastCrew> result=apiservice.getcast(String.valueOf(value),Global.key);
-        result.enqueue(new Callback<CastCrew>() {
+    public void Get_Data()
+    {
+        ApiInterface apiInterface= ApiClient.getClient().create(ApiInterface.class);
+        Call<Person> callresult=apiInterface.getperson(castid, Global.key);
+        callresult.enqueue(new Callback<Person>() {
             @Override
-            public void onResponse(Call<CastCrew> call, Response<CastCrew> response) {
-                CastCrew castcrew=response.body();
-                final List<Cast_one> cast=castcrew.getCast();
-                movie_cast_adapter=new Movie_Cast_Adapter(getContext(), cast, new Listener() {
-                    @Override
-                    public void onItemClick(View v, int position) {
-                        Intent intent=new Intent(getActivity().getBaseContext(),Activity_Cast.class);
-                        sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getContext());
-                        SharedPreferences.Editor editor=sharedPreferences.edit();
-                        editor.putInt("cast_id",cast.get(position).getId());
-                        editor.commit();
-                        getActivity().startActivity(intent);
-                    }
-                });
-                recyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
-
-                recyclerview.setAdapter(movie_cast_adapter);
+            public void onResponse(Call<Person> call, Response<Person> response) {
+                descripition.setText(response.body().getBiography());
+                birthplace.setText(response.body().getPlace_of_birth());
+                born.setText(response.body().getBirthday());
             }
 
             @Override
-            public void onFailure(Call<CastCrew> call, Throwable t) {
+            public void onFailure(Call<Person> call, Throwable t) {
 
             }
         });
-
-
     }
 }

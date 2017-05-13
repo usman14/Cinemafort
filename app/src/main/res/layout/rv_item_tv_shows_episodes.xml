@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="10dp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_rv_tv_shows_episodes_season_number"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/tv_rv_tv_shows_episodes_season_number"
+        android:id="@+id/tv_rv_tv_shows_episodes_number_of_episodes"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+
+        android:id="@+id/tv_rv_tv_shows_episodes_air_date"
+        android:layout_below="@+id/tv_rv_tv_shows_episodes_number_of_episodes"/>
+
+    <ImageView
+        android:layout_width="@dimen/img_view_episodes_width"
+        android:layout_height="@dimen/img_view_episodes_height"
+        android:layout_below="@+id/tv_rv_tv_shows_episodes_air_date"
+        android:layout_marginTop="5dp"
+        android:id="@+id/img_view_rv_tv_shows_episodes_air_date"/>
+</RelativeLayout>

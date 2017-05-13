@@ -11,4 +11,27 @@
     <string name="revenue">Revenue :</string>
     <string name="rate">RATE</string>
     <string name="action_search">Search</string>
+    <string name="Firstairdate">First Air Date</string>
+    <string name="lastairdate">Last Air Date</string>
+    <string name="network">Networks</string>
+    <string name="createdby">Created By</string>
+    <string name="movies">Movies</string>
+    <string name="tv_shows" />
+    <string name="tv_show">Tv Shows</string>
+    <string name="search">Search</string>
+    <string name="advanced_search">Advanced Search</string>
+    <string name="popular_people">Popular People</string>
+    <string name="add">ADD</string>
+    <string name="trailers">Trailers</string>
+    <string name="similiar_movies">Similiar Movies</string>
+    <string name="born">Born:</string>
+    <string name="birthplace">Birthplace:</string>
+    <string name="no_of_episodes">Number of Episodes :</string>
+    <string name="season_number">Season Number :</string>
+    <string name="first_air_date">First Air Date :</string>
+    <string name="url_images">http://image.tmdb.org/t/p/w500</string>
+    <string name="as">as</string>
+    <string name="date_2017">2017</string>
+    <string name="all">ALL</string>
+    <string name="sort">Sort</string>
 </resources>

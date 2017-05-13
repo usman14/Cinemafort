@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <RelativeLayout
@@ -18,7 +19,7 @@
             <ImageView
                 android:id="@+id/img_view_cast_activity"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="@dimen/img_view_movie_big_pic_height"
                 />
 
 
@@ -30,14 +31,14 @@
                 android:layout_height="50dp"
                 android:layout_below="@+id/img_view_cast_activity"
                 android:layout_marginLeft="180dp"
-                android:textSize="22dp"
+                android:textSize="@dimen/tv_very_big_heading"
                 android:textStyle="bold"/>
 
         </RelativeLayout>
 
 
 
-        <TabHost android:layout_height="700dp"
+        <TabHost android:layout_height="350dp"
             android:layout_width="match_parent"
             android:layout_marginLeft="10dp"
             android:id="@android:id/tabhost">
@@ -79,4 +80,4 @@
         </TabHost>
 
     </LinearLayout>
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>

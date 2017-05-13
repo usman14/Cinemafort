@@ -1,6 +1,7 @@
 package com.example.usman.videos.ADAPTERS;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +51,7 @@ public class Discover_Movie_Adapter  extends RecyclerView.Adapter<Discover_Movie
         }
         else
         {
-            holder.imageView.setBackgroundResource(R.drawable.unavailable_image);
+            holder.imageView.setBackgroundResource(R.drawable.movie);
 
 
         }
@@ -78,7 +79,7 @@ public class Discover_Movie_Adapter  extends RecyclerView.Adapter<Discover_Movie
             holder.genre.setText(stringBuilder.toString());
             holder.date.setText(utilites.year(list.get(position).getRelease_date()));
             holder.name.setText(list.get(position).getTitle());
-            holder.rating.setText(list.get(position).getVote_average().toString());
+            holder.rating.setText(list.get(position).getVote_average());
         }
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +98,7 @@ public class Discover_Movie_Adapter  extends RecyclerView.Adapter<Discover_Movie
     public class Search extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView date,name,genre,rating;
-        RelativeLayout relativeLayout;
+        ConstraintLayout relativeLayout;
         public Search(View v) {
             super(v);
             imageView=(ImageView)v.findViewById(R.id.img_view_movie_adapter);
@@ -105,7 +106,7 @@ public class Discover_Movie_Adapter  extends RecyclerView.Adapter<Discover_Movie
             name=(TextView)v.findViewById(R.id.tv_movie_adapter_name);
             genre=(TextView)v.findViewById(R.id.tv_movie_adapter_genre);
             rating=(TextView)v.findViewById(R.id.tv_movie_adapter_name_rating);
-            relativeLayout=(RelativeLayout)v.findViewById(R.id.rl_main_activity_movie);
+            relativeLayout=(ConstraintLayout) v.findViewById(R.id.rl_main_activity_movie);
 
         }
     }

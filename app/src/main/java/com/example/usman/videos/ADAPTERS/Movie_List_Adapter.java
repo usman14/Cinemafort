@@ -1,6 +1,7 @@
 package com.example.usman.videos.ADAPTERS;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,8 +38,15 @@ public class Movie_List_Adapter extends RecyclerView.Adapter <Movie_List_Adapter
     public Movie_holder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_item_main_activity_movie,parent,false);
+       // View itemView = mLayoutInflater.inflate(R.layout.view_item, parent, false);
+        // work here if you need to control height of your items
+        // keep in mind that parent is RecyclerView in this case
+        //int height = parent.getMeasuredHeight();
+        //int width = parent.getMeasuredWidth();
+        //v.setLayoutParams(new RecyclerView.LayoutParams(2*width, height));
 
         return new Movie_holder(v);
+
     }
 
     @Override
@@ -65,9 +73,13 @@ public class Movie_List_Adapter extends RecyclerView.Adapter <Movie_List_Adapter
             }
 
         }
+        String withoutcomma=stringBuilder.toString();
+        if(withoutcomma.endsWith(",")) {
 
+            withoutcomma= withoutcomma.substring(0, withoutcomma.length() - 1);
+        }
             //stringBuilder.deleteCharAt(stringBuilder.lastIndexOf(","));
-            holder.genre.setText(stringBuilder.toString());
+            holder.genre.setText(withoutcomma);
 
         Picasso.with(context).load("http://image.tmdb.org/t/p/w500"+movie.getPosterPath()).fit().into(holder.imageView);
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +100,7 @@ public class Movie_List_Adapter extends RecyclerView.Adapter <Movie_List_Adapter
     public static class Movie_holder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView date,name,genre,rating;
-        RelativeLayout relativeLayout;
+        ConstraintLayout relativeLayout;
 
         public Movie_holder(View v) {
             super(v);
@@ -96,7 +108,7 @@ public class Movie_List_Adapter extends RecyclerView.Adapter <Movie_List_Adapter
             date=(TextView)v.findViewById(R.id.tv_movie_adapter_year);
             name=(TextView)v.findViewById(R.id.tv_movie_adapter_name);
             genre=(TextView)v.findViewById(R.id.tv_movie_adapter_genre);
-            relativeLayout=(RelativeLayout)v.findViewById(R.id.rl_main_activity_movie);
+            relativeLayout=(ConstraintLayout) v.findViewById(R.id.rl_main_activity_movie);
             rating=(TextView)v.findViewById(R.id.tv_movie_adapter_name_rating);
 
 

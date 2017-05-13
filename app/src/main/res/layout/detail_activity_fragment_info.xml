@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
@@ -8,17 +8,13 @@
 <LinearLayout
     android:orientation="vertical"
     android:layout_marginLeft="10dp"
+    android:background="@color/white"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
 <RelativeLayout
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="700dp">
-    <FrameLayout
-        android:id="@+id/fl_HealthData_Withings"
-        android:visibility="invisible"
-        android:layout_width="384dp"
-        android:layout_height="511dp" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -28,8 +24,8 @@
         android:layout_marginLeft="10dp">
 
         <ImageButton
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/img_btn_add_width"
+            android:layout_height="@dimen/img_btn_add_height"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/greenstar"
@@ -46,8 +42,8 @@
 
 
         <ImageButton
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/img_btn_add_width"
+            android:layout_height="@dimen/img_btn_add_height"
             android:id="@+id/img_view_movie_detail_add"
             android:background="@drawable/add"
             android:layout_marginTop="10dp"
@@ -59,13 +55,13 @@
             android:layout_height="wrap_content"
             android:id="@+id/tv_movie_detail_add"
             android:layout_marginTop="8dp"
-            android:text="ADD"
+            android:text="@string/add"
             android:layout_below="@+id/img_view_movie_detail_add"
             android:layout_alignRight="@+id/img_view_movie_detail_add"/>
         <ImageView
             android:layout_marginTop="10dp"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/img_btn_add_width"
+            android:layout_height="@dimen/img_btn_add_height"
             android:layout_marginLeft="50dp"
             android:background="@drawable/moviedb"
             android:layout_toRightOf="@id/img_view_movie_detail_add"
@@ -79,8 +75,8 @@
             android:id="@+id/tv_movie_detail_one_rating_one"/>
 
         <ImageView
-            android:layout_width="45dp"
-            android:layout_height="25dp"
+            android:layout_width="@dimen/img_btn_add_width"
+            android:layout_height="@dimen/img_btn_add_height"
             android:layout_marginLeft="50dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/imdb_logo"
@@ -111,7 +107,7 @@
         android:id="@+id/tv_movie_detail_one_descrip"/>
 
     <TextView
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:text="@string/releasedate"
@@ -121,7 +117,7 @@
         android:id="@+id/tv_movie_detail_one_release_date"/>
 
     <TextView
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_height="wrap_content"
         android:text="@string/director"
@@ -130,7 +126,7 @@
         android:id="@+id/tv_movie_detail_one_director"/>
 
     <TextView
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/budget"
         android:textStyle="bold"
@@ -139,7 +135,7 @@
         android:layout_below="@+id/tv_movie_detail_one_director"
         android:id="@+id/tv_movie_detail_one_budget"/>
     <TextView
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/revenue"
         android:textStyle="bold"
@@ -176,7 +172,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Trailers"
+        android:text="@string/trailers"
         android:textStyle="bold"
         android:textSize="18dp"
         android:id="@+id/tv_movie_detail_one_trailer"
@@ -186,7 +182,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="@dimen/rv_trailer_movie_height"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
 
@@ -196,7 +192,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Similiar Movies"
+        android:text="@string/similiar_movies"
         android:textStyle="bold"
         android:textSize="18dp"
         android:layout_marginLeft="10dp"
@@ -206,7 +202,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="@dimen/rv_similiar_movies_height"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/tv_movie_detail_one_similiar_movies"
@@ -214,4 +210,4 @@
 </RelativeLayout>
 
 </LinearLayout>
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>

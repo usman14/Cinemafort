@@ -6,10 +6,12 @@ import com.example.usman.videos.POJO.CastCrew;
 import com.example.usman.videos.POJO.Cast_1;
 import com.example.usman.videos.POJO.Cast_Movies;
 import com.example.usman.videos.POJO.Cast_Tv_Shows;
+import com.example.usman.videos.POJO.Cast_one;
 import com.example.usman.videos.POJO.Discover_Pojo;
 import com.example.usman.videos.POJO.MoviesResponse;
 import com.example.usman.videos.POJO.MovieMovie;
 import com.example.usman.videos.POJO.Person;
+import com.example.usman.videos.POJO.Popular_People;
 import com.example.usman.videos.POJO.Rate;
 import com.example.usman.videos.POJO.Rating;
 import com.example.usman.videos.POJO.Review;
@@ -20,6 +22,13 @@ import com.example.usman.videos.POJO.Search_Tv_Shows;
 import com.example.usman.videos.POJO.Similiar_Movies;
 import com.example.usman.videos.POJO.Token_new;
 import com.example.usman.videos.POJO.Trailer;
+import com.example.usman.videos.POJO.Tv_Shows_Detail_Basic;
+import com.example.usman.videos.POJO.Tv_Shows_Detail_Basic_results;
+import com.example.usman.videos.POJO.Tv_Shows_Popular;
+import com.example.usman.videos.POJO.Tv_Shows_Similiar;
+import com.example.usman.videos.POJO.Tv_Shows_Similiar_Results;
+import com.example.usman.videos.POJO.Tv_Shows_trailer;
+import com.example.usman.videos.POJO.Tv_Shows_trailer_Results;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -32,6 +41,7 @@ import retrofit2.http.Query;
 
 
 public interface ApiInterface {
+    @Headers("Content-Type: application/json;charset=utf-8")
 
     @GET("movie/top_rated")
     Call<MoviesResponse> getTopRatedMovies(@Query("api_key") String apiKey);
@@ -101,8 +111,38 @@ public interface ApiInterface {
             ,@Query("primary_release_date.lte") int datetwo,@Query("with_genres")int genre,@Query("sort_by")String sortby);
 
     @POST("movie/{movie_id}/rating")
-    Call<Rating> give_rating(  @Header("Content-Type")
-                                       String header,@Path("movie_id") int movieid,@Query("api_key") String apikey,
+    Call<Rating> give_rating(@Path("movie_id") int movieid,@Query("api_key") String apikey,
                              @Query("session_id")String sessionid, @Body float value);
 
+    @GET("tv/airing_today")
+    Call<Tv_Shows_Popular> get_tvshow_airingtoday(@Query("api_key") String apiKey);
+
+    @GET("tv/popular")
+    Call<Tv_Shows_Popular> get_tvshow_popular(@Query("api_key") String apiKey);
+
+    @GET("tv/on_the_air")
+    Call<Tv_Shows_Popular> get_tvshow_tvontheair(@Query("api_key") String apiKey);
+
+    @GET("tv/top_rated")
+    Call<Tv_Shows_Popular> get_tvshow_toprated(@Query("api_key") String apiKey);
+
+
+    @GET("tv/{tv_id}")
+    Call<Tv_Shows_Detail_Basic> get_tv_show_detail_basic(@Path("tv_id") String query, @Query("api_key") String key);
+    @GET("tv/{tv_id}/videos")
+
+    Call<Tv_Shows_trailer> get_tv_show_trailer(@Path("tv_id") String query, @Query("api_key") String key);
+
+    @GET("tv/{tv_id}/similar")
+
+    Call<Tv_Shows_Similiar> get_tv_show_similiar_tv_shows(@Path("tv_id") String query, @Query("api_key") String key);
+
+    @GET("tv/{tv_id}/credits")
+
+    Call<CastCrew> get_tv_show_cast(@Path("tv_id") String query, @Query("api_key") String key);
+
+    @GET("person/popular")
+    Call<Popular_People> get_popular_person(@Query("api_key") String apiKey);
+    @GET("tv/{tv_id}")
+    Call<Tv_Shows_Detail_Basic> get_tv_show_episodes(@Path("tv_id") String query, @Query("api_key") String key);
 }

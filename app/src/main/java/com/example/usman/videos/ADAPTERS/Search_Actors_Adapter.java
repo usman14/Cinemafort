@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.usman.videos.INTERFACES.Listener;
@@ -39,10 +40,26 @@ public class Search_Actors_Adapter extends RecyclerView.Adapter<Search_Actors_Ad
     }
 
     @Override
-    public void onBindViewHolder(Search_Actors_Adapter.Search holder, int position) {
-        Picasso.with(context).load("http://image.tmdb.org/t/p/w500"+list.get(position).getProfile_path()).fit().into(holder.imageView);
+    public void onBindViewHolder(Search_Actors_Adapter.Search holder, final int position) {
+       // Picasso.with(context).load("http://image.tmdb.org/t/p/w500"+list.get(position).getProfile_path()).fit().into(holder.imageView);
         holder.textView.setText(list.get(position).getName());
+        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClick(v,position);
+            }
+        });
+        if(list.get(position).getProfile_path()!=null)
+        {
+            Picasso.with(context).load("http://image.tmdb.org/t/p/w500"+list.get(position).getProfile_path()).fit().into(holder.imageView);
 
+        }
+        else
+        {
+            holder.imageView.setBackgroundResource(R.drawable.people);
+
+
+        }
     }
 
     @Override
@@ -54,10 +71,12 @@ public class Search_Actors_Adapter extends RecyclerView.Adapter<Search_Actors_Ad
 
 ImageView imageView;
         TextView textView;
+        RelativeLayout relativeLayout;
         public Search(View itemView) {
             super(itemView);
             imageView=(ImageView)itemView.findViewById(R.id.img_view_fragment_info_cast);
             textView=(TextView)itemView.findViewById(R.id.tv_fragment_info_cast_name);
+            relativeLayout=(RelativeLayout)itemView.findViewById(R.id.rl_fragment_info_cast_item);
 
         }
     }

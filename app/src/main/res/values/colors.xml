@@ -2,9 +2,12 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#404048</color>
     <color name="white">#FFFFFF</color>
-    <color name="wheat">#F5DEB3</color>
+    <color name="wheat">#404048 </color>
+    <color name="lightblue">#73BAEC </color>
+    <color name="darkred">#800517 </color>
+
 
 </resources>
 

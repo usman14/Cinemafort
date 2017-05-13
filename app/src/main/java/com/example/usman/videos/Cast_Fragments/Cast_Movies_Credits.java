@@ -1,5 +1,6 @@
 package com.example.usman.videos.Cast_Fragments;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.usman.videos.ADAPTERS.Cast_Movies_Adapter;
+import com.example.usman.videos.Main_Activities.Activity_Movie_Detail;
 import com.example.usman.videos.INTERFACES.ApiInterface;
 import com.example.usman.videos.INTERFACES.Listener;
 import com.example.usman.videos.POJO.Cast_1;
@@ -54,12 +56,17 @@ public class Cast_Movies_Credits extends Fragment {
         result.enqueue(new Callback<Cast_Movies>() {
             @Override
             public void onResponse(Call<Cast_Movies> call, Response<Cast_Movies> response) {
-                Cast_1[] result=response.body().getCast();
-                list= Arrays.asList(result);
+                Cast_1[] list_objects=response.body().getCast();
+                list= Arrays.asList(list_objects);
                 adapter=new Cast_Movies_Adapter(getContext(), list, new Listener() {
                     @Override
                     public void onItemClick(View v, int position) {
-
+                    Intent intent=new Intent(getContext(), Activity_Movie_Detail.class);
+                        SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(getContext());
+                        SharedPreferences.Editor editor=sharedPreferences.edit();
+                        editor.putInt("movie_id",Integer.parseInt(list.get(position).getId()));
+                        editor.commit();
+                        getActivity().startActivity(intent);
                     }
                 });
                 rv.setLayoutManager(new GridLayoutManager(getContext(),3));

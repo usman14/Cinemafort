@@ -6,91 +6,101 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="10dp"
+        android:layout_height="@dimen/rl_discover_height"
+        android:background="@color/lightblue"
         android:id="@+id/rl_fragment_discover">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minHeight="36dp"
-            android:text="2017"
+            android:text="@string/date_2017"
+            android:layout_marginTop="@dimen/tv_discover_margin_top"
+            android:gravity="center_vertical"
             android:textStyle="bold"
-            android:textSize="20dp"
+            android:layout_marginLeft="25dp"
+            android:textSize="@dimen/tv_heading_size"
             android:id="@+id/tv_fragment_discover_year_one"/>
 
         <ImageView
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="@dimen/img_view_arrow_discover_width"
+            android:layout_height="@dimen/img_view_arrow_discover_height"
             android:id="@+id/img1"
-            android:layout_marginTop="8dp"
+            android:layout_alignTop="@+id/tv_fragment_discover_year_one"
+            android:layout_marginTop="5dp"
             android:background="@drawable/dropdown"
             android:layout_toRightOf="@id/tv_fragment_discover_year_one"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minHeight="36dp"
-            android:text="2017"
-
+            android:text="@string/date_2017"
+            android:layout_marginTop="@dimen/tv_discover_margin_top"
             android:textStyle="bold"
-            android:textSize="20dp"
-            android:layout_marginLeft="40dp"
+            android:textSize="@dimen/tv_heading_size"
+            android:layout_marginLeft="@dimen/tv_discover_margin_left"
 
             android:layout_toRightOf="@id/img1"
             android:id="@+id/tv_fragment_discover_year_two"/>
 
         <ImageView
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="@dimen/img_view_arrow_discover_width"
+            android:layout_height="@dimen/img_view_arrow_discover_height"
             android:id="@+id/img2"
-            android:layout_marginTop="8dp"
+            android:layout_alignTop="@+id/tv_fragment_discover_year_two"
+
+            android:layout_marginTop="5dp"
             android:background="@drawable/dropdown"
             android:layout_toRightOf="@id/tv_fragment_discover_year_two"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minHeight="36dp"
-            android:text="ALL"
-            android:layout_marginLeft="40dp"
+            android:gravity="center"
+            android:text="@string/all"
+            android:layout_marginTop="@dimen/tv_discover_margin_top"
+
+            android:layout_marginLeft="@dimen/tv_discover_margin_left"
             android:textStyle="bold"
-            android:textSize="20dp"
+            android:textSize="@dimen/tv_heading_size"
             android:layout_toRightOf="@+id/img2"
             android:id="@+id/tv_fragment_discover_category"/>
 
         <ImageView
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="@dimen/img_view_arrow_discover_width"
+            android:layout_height="@dimen/img_view_arrow_discover_height"
             android:id="@+id/img3"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignTop="@+id/tv_fragment_discover_category"
+
             android:background="@drawable/dropdown"
             android:layout_toRightOf="@id/tv_fragment_discover_category"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minHeight="36dp"
-            android:layout_marginLeft="40dp"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/tv_discover_margin_left"
             android:textStyle="bold"
-            android:textSize="20dp"
+            android:layout_marginTop="@dimen/tv_discover_margin_top"
+            android:textSize="@dimen/tv_heading_size"
             android:layout_toRightOf="@+id/img3"
             android:id="@+id/tv_fragment_discover_sorting"/>
 
         <ImageView
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="@dimen/img_view_arrow_discover_width"
+            android:layout_height="@dimen/img_view_arrow_discover_height"
             android:id="@+id/img4"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/dropdown"
+            android:layout_alignTop="@+id/tv_fragment_discover_sorting"
+
             android:layout_toRightOf="@id/tv_fragment_discover_sorting"/>
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="14dp"
-        android:layout_marginLeft="15dp"
+        android:layout_marginTop="@dimen/rv_discover_margin_top"
+        android:layout_marginLeft="@dimen/rv_discover_margin_left"
         android:layout_below="@+id/rl_fragment_discover"
-        android:id="@+id/rv_fragment_discover"></android.support.v7.widget.RecyclerView>
+        android:id="@+id/rv_fragment_discover" />
 </RelativeLayout>

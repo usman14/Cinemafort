@@ -12,8 +12,8 @@
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/img_view_fragment_info_cast"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
+        android:layout_width="@dimen/circlular_view_cast_width"
+        android:layout_height="@dimen/circlular_view_cast_height"
         app:civ_border_width="2dp"
         app:civ_border_color="#FF000000"/>
     <TextView
@@ -22,7 +22,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
         android:textStyle="bold"
-        android:textSize="15dp"
+        android:textSize="@dimen/tv_heading_size"
         android:layout_toRightOf="@+id/img_view_fragment_info_cast"
         android:id="@+id/tv_fragment_info_cast_name" />
     <TextView
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:textStyle="italic"
-        android:textSize="10dp"
+        android:textSize="@dimen/tv_normal_size"
         android:layout_marginLeft="15dp"
         android:layout_toRightOf="@+id/tv_fragment_info_cast_name"
         android:layout_alignParentRight="true"

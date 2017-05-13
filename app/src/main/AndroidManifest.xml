@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Activity_Main"
+            android:name=".Main_Activities.Activity_Main"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -20,11 +20,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity_Movie_Detail"></activity>
-        <activity android:name=".Fragment_WebApi"></activity>
-        <activity android:name=".Activity_Cast"></activity>
-        <activity android:name=".Activity_Search"></activity>
-        <activity android:name=".Discover"></activity>
+        <activity android:name=".Main_Activities.Activity_Movie_Detail"></activity>
+        <activity android:name=".Main_Fragments.Fragment_WebApi"></activity>
+        <activity android:name=".Main_Activities.Activity_Cast"></activity>
+        <activity android:name=".Main_Activities.Activity_Search"></activity>
+        <activity android:name=".Main_Activities.Activity_Tv_Shows_Detail"></activity>
 
     </application>
 

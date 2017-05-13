@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,7 +16,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Born:  "
+        android:text="@string/born"
         android:textStyle="bold"
         android:id="@+id/tv_cast_activity_fragment_info_born"
         android:layout_marginTop="15dp"
@@ -31,7 +34,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Birthplace:  "
+        android:text="@string/birthplace"
         android:layout_marginTop="15dp"
         android:textStyle="bold"
         android:id="@+id/tv_cast_activity_fragment_info_birthplace"
@@ -55,4 +58,4 @@
         android:layout_marginLeft="10dp"
         android:id="@+id/tv_cast_activity_fragment_info_desc"/>
 
-</RelativeLayout>
+</RelativeLayout></android.support.v4.widget.NestedScrollView>
