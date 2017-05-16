@@ -25,16 +25,16 @@
             android:title="@string/popular_people" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Lists">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/list_favourite"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="Favourite List" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/list_watch"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:title="Watch List" />
         </menu>
     </item>
 

@@ -58,7 +58,7 @@ public class Tv_Show_Cast_Adapter extends RecyclerView.Adapter<Tv_Show_Cast_Adap
         }
 
         holder.name.setText(list.get(position).getName());
-        holder.rolename.setText(R.string.as+list.get(position).getCharacter());
+        holder.rolename.setText("as"+list.get(position).getCharacter());
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

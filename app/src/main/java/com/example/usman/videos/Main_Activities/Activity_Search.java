@@ -1,6 +1,7 @@
 package com.example.usman.videos.Main_Activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -34,6 +35,8 @@ public class Activity_Search extends AppCompatActivity implements TabHost.OnTabC
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         Initialize_Viewpager();
         initializeTabHost();
 
@@ -119,7 +122,9 @@ public class Activity_Search extends AppCompatActivity implements TabHost.OnTabC
                 return false;
             }
         });
+
         return true;
+
     }
     class FakeContent implements TabHost.TabContentFactory {
         private final Context mContext;
@@ -135,5 +140,17 @@ public class Activity_Search extends AppCompatActivity implements TabHost.OnTabC
             v.setMinimumWidth(0);
             return v;
         }
+
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id==android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

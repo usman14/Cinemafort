@@ -38,10 +38,10 @@ public class Tv_Shows_Episode_Adapter extends RecyclerView.Adapter<Tv_Shows_Epis
 
     @Override
     public void onBindViewHolder(Tv_Shows_Episode_Adapter.Episod holder, int position) {
-        holder.episodes.setText(R.string.no_of_episodes+list.get(position).getEpisode_count());
-        holder.season.setText(R.string.season_number+list.get(position).getSeason_number());
-        holder.date.setText(R.string.first_air_date+list.get(position).getAir_date());
-        Picasso.with(context).load(R.string.url_images+list.get(position).getPoster_path()).fit().into(holder.imageView);
+        holder.episodes.setText("No of Episodes : "+list.get(position).getEpisode_count());
+        holder.season.setText("Season Number : "+list.get(position).getSeason_number());
+        holder.date.setText("First Air Date :"+list.get(position).getAir_date());
+        Picasso.with(context).load("http://image.tmdb.org/t/p/w500"+list.get(position).getPoster_path()).fit().into(holder.imageView);
 
     }
 

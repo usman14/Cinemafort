@@ -117,8 +117,13 @@ public class Activity_Movie_Detail extends AppCompatActivity implements TabHost.
             @Override
             public void onResponse(Call<MovieMovie> call, Response<MovieMovie> response) {
                 int statusCode = response.code();
-                homepage=response.body().getHomepage();
                 progressDialog.hide();
+
+                if(response.body().getHomepage()!=null)
+                {
+                    homepage=response.body().getHomepage();
+
+                }
                 response.body().getHomepage();
                 title_name=response.body().getOriginalTitle();
                 Picasso.with(Activity_Movie_Detail.this).load("http://image.tmdb.org/t/p/w500"+response.body().getBackdropPath()).fit().into(img_view_movie_detail);

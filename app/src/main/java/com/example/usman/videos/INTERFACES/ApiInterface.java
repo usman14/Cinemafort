@@ -29,6 +29,7 @@ import com.example.usman.videos.POJO.Tv_Shows_Similiar;
 import com.example.usman.videos.POJO.Tv_Shows_Similiar_Results;
 import com.example.usman.videos.POJO.Tv_Shows_trailer;
 import com.example.usman.videos.POJO.Tv_Shows_trailer_Results;
+import com.example.usman.videos.Value;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -111,8 +112,8 @@ public interface ApiInterface {
             ,@Query("primary_release_date.lte") int datetwo,@Query("with_genres")int genre,@Query("sort_by")String sortby);
 
     @POST("movie/{movie_id}/rating")
-    Call<Rating> give_rating(@Path("movie_id") int movieid,@Query("api_key") String apikey,
-                             @Query("session_id")String sessionid, @Body float value);
+    Call<Rating> give_rating(@Header("Content-type")String header,@Path("movie_id") int movieid,@Query("api_key") String apikey,
+                             @Query("session_id")String sessionid, @Body Value value);
 
     @GET("tv/airing_today")
     Call<Tv_Shows_Popular> get_tvshow_airingtoday(@Query("api_key") String apiKey);

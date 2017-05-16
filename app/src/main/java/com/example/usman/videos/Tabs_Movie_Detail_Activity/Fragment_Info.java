@@ -1,7 +1,9 @@
 package com.example.usman.videos.Tabs_Movie_Detail_Activity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -15,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -36,8 +37,11 @@ import com.example.usman.videos.POJO.Similiar_Movies;
 import com.example.usman.videos.POJO.Token_new;
 import com.example.usman.videos.POJO.Trailer;
 import com.example.usman.videos.R;
+import com.example.usman.videos.Realm_Objects.Realm_Favourite_List;
+import com.example.usman.videos.Realm_Objects.Realm_Watch_List;
 import com.example.usman.videos.UTILITIES.ApiClient;
 import com.example.usman.videos.UTILITIES.Global;
+import com.example.usman.videos.Value;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -68,7 +72,12 @@ public class Fragment_Info extends Fragment {
     Movie_Trailer_Adapter movie_Trailer_Adapter;
     Movie_Similiar_Movie_Adapter movie_Similiar_Movie_Adapter;
     ImageButton rate, add;
-    FrameLayout frameLayout;
+    String year;
+    String title;
+    String genre;
+    String image_path;
+    String rating;
+    int movie_id;
     Realm realm;
 
     @Nullable
@@ -147,6 +156,11 @@ public class Fragment_Info extends Fragment {
                 //director.setText(response.body().get);
                 budget.setText("$ " + NumberFormat.getNumberInstance(Locale.US).format(response.body().getBudget()));
                 revenue.setText("$ " + NumberFormat.getNumberInstance(Locale.US).format(response.body().getRevenue()));
+                year=response.body().getReleaseDate();
+                title=response.body().getTitle();
+                image_path=response.body().getBackdropPath();
+                movie_id=response.body().getId();
+                rating=response.body().getVoteAverage().toString();
 
 
             }
@@ -265,8 +279,6 @@ public class Fragment_Info extends Fragment {
 
                 if (count == 0) {
                     final String urls = "https://www.themoviedb.org/authenticate/" + token;
-                    //final Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse(urls));
-                    //startActivity(intent);
                     Intent intent=new Intent(getActivity().getBaseContext(),Fragment_WebApi.class);
                     intent.putExtra("url",urls);
                     intent.putExtra("token",token);
@@ -287,14 +299,15 @@ public class Fragment_Info extends Fragment {
                         public void onClick(View v) {
                             Realm_Session_Id realm_session_id=realm.where(Realm_Session_Id.class).findFirst();
                             realm_session_id.getSession_id();
-                            Float rateing=ratingBar.getRating();
+                            Value values=new Value(ratingBar.getRating()*2);
                             ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
-                            Call<Rating> token_newCall = apiInterface.give_rating(value,Global.key,realm_session_id.getSession_id(),
-                                    ratingBar.getRating());
+                            Call<Rating> token_newCall = apiInterface.give_rating("application/json;charset=utf-8",value,Global.key,realm_session_id.getSession_id(),
+                                    values);
                             token_newCall.enqueue(new Callback<Rating>() {
                                 @Override
                                 public void onResponse(Call<Rating> call, Response<Rating> response) {
                                     Toast.makeText(getContext(),response.body().getStatus_message(),Toast.LENGTH_LONG).show();
+
                                 }
 
                                 @Override
@@ -321,6 +334,88 @@ public class Fragment_Info extends Fragment {
 
             }
         });
+
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Add_Movie();
+            }
+        });
     }
+    public void Add_Movie()
+    {
+
+        final CharSequence[] items =
+                {"Watch List","Favourite List"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(which==1)
+                {
+                    Long count=realm.where(Realm_Favourite_List.class).equalTo("movie_id",movie_id).count();
+                    if(count==0)
+                    {
+                        realm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+
+                                Realm_Favourite_List realm_favourite_list=realm.createObject(Realm_Favourite_List.class);
+                                realm_favourite_list.setTitle(title);
+                                realm_favourite_list.setMovie_id(movie_id);
+                                realm_favourite_list.setYear(year);
+                                realm_favourite_list.setImage_path(image_path);
+                                realm_favourite_list.setRating(rating);
+                            }
+                        });
+                        Toast.makeText(getContext(),"Successfully Added",Toast.LENGTH_LONG).show();
+
+
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(),"Already Exists in List",Toast.LENGTH_LONG).show();
+                    }
+
+                }
+
+                else
+                {
+                    Long count=realm.where(Realm_Watch_List.class).equalTo("movie_id",movie_id).count();
+
+                    if(count==0)
+                    {
+                        realm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+
+                                Realm_Watch_List realm_favourite_list=realm.createObject(Realm_Watch_List.class);
+                                realm_favourite_list.setTitle(title);
+                                realm_favourite_list.setMovie_id(value);
+                                realm_favourite_list.setYear(year);
+                                realm_favourite_list.setImage_path(image_path);
+                                realm_favourite_list.setRating(rating);
+
+                            }
+                        });
+                        Toast.makeText(getContext(),"Successfully Added",Toast.LENGTH_LONG).show();
+
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(),"Already Exists in List",Toast.LENGTH_LONG).show();
+                    }
+
+                }
+
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+
+    }
+
 }
 

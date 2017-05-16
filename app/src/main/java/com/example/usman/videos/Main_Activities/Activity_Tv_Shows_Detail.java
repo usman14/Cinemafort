@@ -9,6 +9,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -48,6 +50,7 @@ public class Activity_Tv_Shows_Detail extends AppCompatActivity implements TabHo
     ViewPager viewPager;
     Pager_Adapter myFragmentPagerAdapter;
     SharedPreferences sharedPreferences;
+    String homepage,title_name;
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -96,6 +99,8 @@ public class Activity_Tv_Shows_Detail extends AppCompatActivity implements TabHo
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_const);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         Get_Widgets();
         Intent intent = getIntent();
         sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
@@ -111,6 +116,8 @@ public class Activity_Tv_Shows_Detail extends AppCompatActivity implements TabHo
             @Override
             public void onResponse(Call<Tv_Shows_Detail_Basic> call, Response<Tv_Shows_Detail_Basic> response) {
                 int statusCode = response.code();
+                homepage=response.body().getHomepage();
+                title_name=response.body().getOriginal_name();
                 Picasso.with(Activity_Tv_Shows_Detail.this).load("http://image.tmdb.org/t/p/w500" + response.body().getBackdrop_path()).fit().into(img_view_movie_detail);
                 Picasso.with(Activity_Tv_Shows_Detail.this).load("http://image.tmdb.org/t/p/w500" + response.body().getPoster_path()).fit().into(img_view_movie_detail_one);
                 year.setText(Utilites.year(response.body().getFirst_air_date()));
@@ -180,6 +187,43 @@ public class Activity_Tv_Shows_Detail extends AppCompatActivity implements TabHo
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_detail_activity, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id==android.R.id.home) {
+            finish();
+        }
+        switch (item.getItemId()) {
+
+            case R.id.action_share:
+
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT,
+                        "Check out " + title_name +", Link :" + homepage );
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
+                return true;
+
+            case R.id.action_go_to_home:
+                Intent intent = new Intent(getApplicationContext(), Activity_Main.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
+
+
 
 

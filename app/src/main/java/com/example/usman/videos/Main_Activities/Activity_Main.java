@@ -68,6 +68,14 @@ public class Activity_Main extends AppCompatActivity  implements NavigationView.
                     FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
                     xfragmentTransaction.replace(R.id.containerView, new Fragment_Advanced_Search()).commit();
                 }
+                else if (menuItem.getItemId() == R.id.list_favourite) {
+
+                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+                    xfragmentTransaction.replace(R.id.containerView, new Fragment_Favourite_List()).commit();
+                } else if (menuItem.getItemId() == R.id.list_watch) {
+                    FragmentTransaction xfragmentTransaction = mFragmentManager.beginTransaction();
+                    xfragmentTransaction.replace(R.id.containerView, new Fragment_Watch_List()).commit();
+                }
                 return false;
             }
 

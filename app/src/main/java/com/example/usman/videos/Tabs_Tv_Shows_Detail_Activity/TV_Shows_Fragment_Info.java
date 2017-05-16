@@ -1,6 +1,8 @@
 package com.example.usman.videos.Tabs_Tv_Shows_Detail_Activity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -38,8 +40,11 @@ import com.example.usman.videos.POJO.Tv_Shows_Similiar_Results;
 import com.example.usman.videos.POJO.Tv_Shows_trailer;
 import com.example.usman.videos.POJO.Tv_Shows_trailer_Results;
 import com.example.usman.videos.R;
+import com.example.usman.videos.Realm_Objects.Realm_Favourite_List;
+import com.example.usman.videos.Realm_Objects.Realm_Watch_List;
 import com.example.usman.videos.UTILITIES.ApiClient;
 import com.example.usman.videos.UTILITIES.Global;
+import com.example.usman.videos.Value;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,7 +63,6 @@ import retrofit2.Response;
 public class TV_Shows_Fragment_Info extends Fragment {
     TextView date, director, budget, revenue, ratingone, ratingtwo, description;
     SharedPreferences sharedPreferences;
-    int tv_show_id;
     List<Tv_Shows_trailer_Results> List_trailer;
     List<Similiar_Movie_Results> List_similiar_movies;
     String token;
@@ -70,6 +74,12 @@ public class TV_Shows_Fragment_Info extends Fragment {
     ImageButton rate, add;
     FrameLayout frameLayout;
     Realm realm;
+    String year;
+    String title;
+    String genre;
+    String image_path;
+    String rating;
+    int tv_show_id;
     String number;
 
     @Nullable
@@ -128,6 +138,10 @@ public class TV_Shows_Fragment_Info extends Fragment {
                 description.setText(response.body().getOverview());
                 date.setText(response.body().getFirst_air_date());
                 director.setText(response.body().getLast_air_date());
+                title=response.body().getOriginal_name();
+                image_path=response.body().getBackdrop_path();
+                rating=response.body().getVote_average();
+                tv_show_id=Integer.parseInt(response.body().getId());
                 Networks[] list=response.body().getNetworks();
                 List<Networks> listed=Arrays.asList(list);
                 StringBuilder stringbuilder=new StringBuilder();
@@ -143,7 +157,7 @@ public class TV_Shows_Fragment_Info extends Fragment {
                 StringBuilder stringBuilder = new StringBuilder();
                 for(int a=0;a<sizecreate;a++)
                 {
-                 stringBuilder.append(listcreate.get(a).getName().toString()+", ");
+                    stringBuilder.append(listcreate.get(a).getName().toString()+", ");
                 }
                 revenue.setText(stringBuilder.toString());
 
@@ -204,7 +218,7 @@ public class TV_Shows_Fragment_Info extends Fragment {
             public void onResponse(Call<Tv_Shows_Similiar> call, Response<Tv_Shows_Similiar> response) {
                 int statusCode = response.code();
                 Tv_Shows_Similiar_Results[] results = response.body().getResults();
-             final List<Tv_Shows_Similiar_Results>   list = Arrays.asList(results);
+                final List<Tv_Shows_Similiar_Results>   list = Arrays.asList(results);
                 movie_Similiar_Movie_Adapter = new Tv_Shows_Similiar_Shows_Adapter(getContext(), list, new Listener() {
                     @Override
                     public void onItemClick(View v, int position) {
@@ -277,9 +291,10 @@ public class TV_Shows_Fragment_Info extends Fragment {
                             Realm_Session_Id realm_session_id=realm.where(Realm_Session_Id.class).findFirst();
                             realm_session_id.getSession_id();
                             Float rateing=ratingBar.getRating();
+                            Value values=new Value(rateing*2);
                             ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
-                            Call<Rating> token_newCall = apiInterface.give_rating(tv_show_id,Global.key,realm_session_id.getSession_id(),
-                                    ratingBar.getRating());
+                            Call<Rating> token_newCall = apiInterface.give_rating("application/json;charset=utf-8",tv_show_id,Global.key,realm_session_id.getSession_id(),
+                                    values);
                             token_newCall.enqueue(new Callback<Rating>() {
                                 @Override
                                 public void onResponse(Call<Rating> call, Response<Rating> response) {
@@ -310,6 +325,88 @@ public class TV_Shows_Fragment_Info extends Fragment {
 
             }
         });
+
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Add_Tv_Show();
+            }
+        });
+    }
+
+    public void Add_Tv_Show()
+    {
+
+        final CharSequence[] items =
+                {"Watch List","Favourite List"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(which==1)
+                {
+                    Long count=realm.where(Realm_Favourite_List.class).equalTo("tv_show_id",tv_show_id).count();
+                    if(count==0)
+                    {
+                        realm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+
+                                Realm_Favourite_List realm_favourite_list=realm.createObject(Realm_Favourite_List.class);
+                                realm_favourite_list.setTitle(title);
+                                realm_favourite_list.setTv_show_id(tv_show_id);
+                                realm_favourite_list.setYear(year);
+                                realm_favourite_list.setImage_path(image_path);
+                                realm_favourite_list.setRating(rating);
+                            }
+                        });
+                        Toast.makeText(getContext(),"Successfully Added",Toast.LENGTH_LONG).show();
+
+
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(),"Already Exists in List",Toast.LENGTH_LONG).show();
+                    }
+
+                }
+
+                else
+                {
+                    Long count=realm.where(Realm_Watch_List.class).equalTo("tv_show_id",tv_show_id).count();
+
+                    if(count==0)
+                    {
+                        realm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+
+                                Realm_Watch_List realm_favourite_list=realm.createObject(Realm_Watch_List.class);
+                                realm_favourite_list.setTitle(title);
+                                realm_favourite_list.setTv_show_id(tv_show_id);
+                                realm_favourite_list.setYear(year);
+                                realm_favourite_list.setImage_path(image_path);
+                                realm_favourite_list.setRating(rating);
+
+                            }
+                        });
+                        Toast.makeText(getContext(),"Successfully Added",Toast.LENGTH_LONG).show();
+
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(),"Already Exists in List",Toast.LENGTH_LONG).show();
+                    }
+
+                }
+
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+
     }
 }
 
