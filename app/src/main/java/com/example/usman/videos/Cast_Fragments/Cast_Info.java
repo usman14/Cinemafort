@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.usman.videos.INTERFACES.ApiInterface;
 import com.example.usman.videos.POJO.Person;
@@ -20,6 +21,9 @@ import com.example.usman.videos.UTILITIES.Global;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by usman on 4/18/2017.
@@ -47,19 +51,26 @@ public class Cast_Info  extends Fragment {
     public void Get_Data()
     {
         ApiInterface apiInterface= ApiClient.getClient().create(ApiInterface.class);
-        Call<Person> callresult=apiInterface.getperson(castid, Global.key);
-        callresult.enqueue(new Callback<Person>() {
-            @Override
-            public void onResponse(Call<Person> call, Response<Person> response) {
-                descripition.setText(response.body().getBiography());
-                birthplace.setText(response.body().getPlace_of_birth());
-                born.setText(response.body().getBirthday());
-            }
+        rx.Observable<Person> callresult=apiInterface.getperson(castid, Global.key);
+        callresult.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Person>() {
+                    @Override
+                    public void onCompleted() {
 
-            @Override
-            public void onFailure(Call<Person> call, Throwable t) {
+                    }
 
-            }
-        });
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(getActivity(),e.toString(),Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(Person person) {
+                        descripition.setText(person.getBiography());
+                        birthplace.setText(person.getPlace_of_birth());
+                        born.setText(person.getBirthday());
+                    }
+                });
+
     }
 }

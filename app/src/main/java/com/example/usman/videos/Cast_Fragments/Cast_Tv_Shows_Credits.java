@@ -28,6 +28,9 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by usman on 4/24/2017.
@@ -52,32 +55,37 @@ public class Cast_Tv_Shows_Credits  extends Fragment {
 
     private void Get_Data() {
         final ApiInterface apiservice= ApiClient.getClient().create(ApiInterface.class);
-        Call<Cast_Tv_Shows> result=apiservice.getcast_tvshows(cast_id, Global.key);
-        result.enqueue(new Callback<Cast_Tv_Shows>() {
-            @Override
-            public void onResponse(Call<Cast_Tv_Shows> call, Response<Cast_Tv_Shows> response) {
-                Cast_2[] list_objects=response.body().getCast();
-                list= Arrays.asList(list_objects);
-                adapter=new Cast_Tv_Shows_Adapter(getContext(), list, new Listener() {
+        rx.Observable<Cast_Tv_Shows> result=apiservice.getcast_tvshows(cast_id, Global.key);
+        result.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Cast_Tv_Shows>() {
                     @Override
-                    public void onItemClick(View v, int position) {
-                        Intent intent=new Intent(getContext(), Activity_Tv_Shows_Detail.class);
-                        SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(getContext());
-                        SharedPreferences.Editor editor=sharedPreferences.edit();
-                        editor.putInt("tvshow_id",Integer.parseInt(list.get(position).getId()));
-                        editor.commit();
-                        getActivity().startActivity(intent);
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Cast_Tv_Shows cast_tv_shows) {
+                        Cast_2[] list_objects=cast_tv_shows.getCast();
+                        list= Arrays.asList(list_objects);
+                        adapter=new Cast_Tv_Shows_Adapter(getContext(), list, new Listener() {
+                            @Override
+                            public void onItemClick(View v, int position) {
+                                Intent intent=new Intent(getContext(), Activity_Tv_Shows_Detail.class);
+                                SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(getContext());
+                                SharedPreferences.Editor editor=sharedPreferences.edit();
+                                editor.putInt("tvshow_id",Integer.parseInt(list.get(position).getId()));
+                                editor.commit();
+                                getActivity().startActivity(intent);
+                            }
+                        });
+                        rv.setLayoutManager(new GridLayoutManager(getContext(),3));
+                        rv.setAdapter(adapter);
                     }
                 });
-                rv.setLayoutManager(new GridLayoutManager(getContext(),3));
-                rv.setAdapter(adapter);
-            }
-
-            @Override
-            public void onFailure(Call<Cast_Tv_Shows> call, Throwable t) {
-
-            }
-        });
-
     }
 }

@@ -24,6 +24,7 @@ import com.example.usman.videos.Main_Activities.Activity_Search;
 import com.example.usman.videos.Main_Activities.Activity_Tv_Shows_Detail;
 import com.example.usman.videos.INTERFACES.ApiInterface;
 import com.example.usman.videos.INTERFACES.Listener;
+import com.example.usman.videos.POJO.MoviesResponse;
 import com.example.usman.videos.POJO.Tv_Shows_Popular;
 import com.example.usman.videos.POJO.Tv_Shows_Popular_Results;
 import com.example.usman.videos.R;
@@ -35,6 +36,9 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by usman on 5/3/2017.
@@ -76,23 +80,29 @@ public class Fragment_Airing_Today extends Fragment {
             final ApiInterface apiService =
                     ApiClient.getClient().create(ApiInterface.class);
 
-            Call<Tv_Shows_Popular> call = apiService.get_tvshow_airingtoday(API_KEY);
-            call.enqueue(new Callback<Tv_Shows_Popular>() {
-                @Override
-                public void onResponse(Call<Tv_Shows_Popular> call, Response<Tv_Shows_Popular> response) {
-                    int statusCode = response.code();
-                    progressDialog.hide();
-                    Tv_Shows_Popular_Results[] list_object;
-                    list_object=response.body().getResults();
-                    list= Arrays.asList(list_object);
-                    Recyler_Creater_List_View(list);
-                }
+            rx.Observable<Tv_Shows_Popular> call = apiService.get_tvshow_airingtoday(API_KEY);
+            call.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<Tv_Shows_Popular>() {
+                        @Override
+                        public void onCompleted() {
 
-                @Override
-                public void onFailure(Call<Tv_Shows_Popular> call, Throwable t) {
+                        }
 
-                }
-            });
+                        @Override
+                        public void onError(Throwable e) {
+                            Toast.makeText(getActivity(),e.toString(),Toast.LENGTH_LONG).show();
+
+                        }
+
+                        @Override
+                        public void onNext(Tv_Shows_Popular moviesResponse) {
+                            progressDialog.hide();
+                            Tv_Shows_Popular_Results[] list_object;
+                            list_object=moviesResponse.getResults();
+                            list= Arrays.asList(list_object);
+                            Recyler_Creater_List_View(list);
+                        }
+                    });
         }
     }
 

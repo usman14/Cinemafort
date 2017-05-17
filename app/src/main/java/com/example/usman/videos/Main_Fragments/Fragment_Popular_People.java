@@ -28,6 +28,9 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by usman on 5/3/2017.
@@ -50,34 +53,38 @@ public class Fragment_Popular_People extends Fragment {
     private void Init() {
 
         final ApiInterface apiservice= ApiClient.getClient().create(ApiInterface.class);
-        Call<Popular_People> result=apiservice.get_popular_person( Global.key);
-        result.enqueue(new Callback<Popular_People>() {
-            @Override
-            public void onResponse(final Call<Popular_People> call, Response<Popular_People> response) {
-                Popular_People_Results[] list=response.body().getResults();
-                final List<Popular_People_Results> cast= Arrays.asList(list);
-                adapter =new Popular_People_Adapter(getContext(), cast, new Listener() {
+        rx.Observable<Popular_People> result=apiservice.get_popular_person( Global.key);
+        result.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Popular_People>() {
                     @Override
-                    public void onItemClick(View v, int position) {
-                        Intent intent=new Intent(getActivity().getBaseContext(),Activity_Cast.class);
-                        sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getContext());
-                        SharedPreferences.Editor editor=sharedPreferences.edit();
-                        editor.putInt("cast_id",Integer.parseInt(cast.get(position).getId()));
-                        editor.commit();
-                        getActivity().startActivity(intent);
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Popular_People popular_people) {
+                        Popular_People_Results[] list=popular_people.getResults();
+                        final List<Popular_People_Results> cast= Arrays.asList(list);
+                        adapter =new Popular_People_Adapter(getContext(), cast, new Listener() {
+                            @Override
+                            public void onItemClick(View v, int position) {
+                                Intent intent=new Intent(getActivity().getBaseContext(),Activity_Cast.class);
+                                sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getContext());
+                                SharedPreferences.Editor editor=sharedPreferences.edit();
+                                editor.putInt("cast_id",Integer.parseInt(cast.get(position).getId()));
+                                editor.commit();
+                                getActivity().startActivity(intent);
+                            }
+                        });
+                        rv.setLayoutManager(new LinearLayoutManager(getContext()));
+
+                        rv.setAdapter(adapter);
                     }
                 });
-                rv.setLayoutManager(new LinearLayoutManager(getContext()));
-
-                rv.setAdapter(adapter);
-            }
-
-            @Override
-            public void onFailure(Call<Popular_People> call, Throwable t) {
-
-            }
-        });
-
-
     }
 }

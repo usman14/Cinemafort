@@ -27,7 +27,7 @@
             android:layout_width="@dimen/img_btn_add_width"
             android:layout_height="@dimen/img_btn_add_height"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="40dp"
             android:background="@drawable/greenstar"
             android:id="@+id/img_btn_movie_detail_rate"/>
         <TextView
@@ -47,7 +47,7 @@
             android:id="@+id/img_view_movie_detail_add"
             android:background="@drawable/add"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="60dp"
             android:layout_toRightOf="@+id/img_btn_movie_detail_rate"/>
 
         <TextView
@@ -74,30 +74,13 @@
             android:layout_alignStart="@+id/img_view_movie_detail_rating_one"
             android:id="@+id/tv_movie_detail_one_rating_one"/>
 
-        <ImageView
-            android:layout_width="@dimen/img_btn_add_width"
-            android:layout_height="@dimen/img_btn_add_height"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/imdb_logo"
 
-            android:layout_toRightOf="@id/img_view_movie_detail_rating_one"
-            android:id="@+id/img_view_movie_detail_rating_two"
-            />
-
-
-        <TextView
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_movie_detail_one_rating_two"
-            android:layout_alignStart="@+id/img_view_movie_detail_rating_two"
-            android:layout_below="@id/img_view_movie_detail_rating_two"
-            />
     </RelativeLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:textStyle="bold"
@@ -118,21 +101,12 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_height="wrap_content"
-        android:text="@string/director"
-        android:textStyle="bold"
-        android:layout_below="@+id/tv_movie_detail_one_release_date"
-        android:id="@+id/tv_movie_detail_one_director"/>
-
-    <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/budget"
         android:textStyle="bold"
         android:layout_marginLeft="10dp"
 
-        android:layout_below="@+id/tv_movie_detail_one_director"
+        android:layout_below="@+id/tv_movie_detail_one_release_date"
         android:id="@+id/tv_movie_detail_one_budget"/>
     <TextView
         android:layout_width="wrap_content"
@@ -150,16 +124,11 @@
         android:layout_alignBaseline="@+id/tv_movie_detail_one_release_date"
         android:id="@+id/tv_movie_detail_one_dvd_release_date_one"
         android:layout_toRightOf="@+id/tv_movie_detail_one_release_date"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_movie_detail_one_release_date"
-        android:id="@+id/tv_movie_detail_one_director_one"
-        android:layout_toRightOf="@+id/tv_movie_detail_one_director"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_movie_detail_one_director_one"
         android:id="@+id/tv_movie_detail_one_budget_one"
         android:layout_toRightOf="@+id/tv_movie_detail_one_director"/>
     <TextView

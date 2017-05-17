@@ -40,6 +40,9 @@ import java.util.Vector;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by usman on 4/18/2017.
@@ -112,44 +115,48 @@ public class Activity_Movie_Detail extends AppCompatActivity implements TabHost.
         final ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<MovieMovie> call = apiService.getMovieDetails(movie_id, Global.key);
-        call.enqueue(new Callback<MovieMovie>() {
-            @Override
-            public void onResponse(Call<MovieMovie> call, Response<MovieMovie> response) {
-                int statusCode = response.code();
-                progressDialog.hide();
+        rx.Observable<MovieMovie> call = apiService.getMovieDetails(movie_id, Global.key);
+        call.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<MovieMovie>() {
+                    @Override
+                    public void onCompleted() {
 
-                if(response.body().getHomepage()!=null)
-                {
-                    homepage=response.body().getHomepage();
+                    }
 
-                }
-                response.body().getHomepage();
-                title_name=response.body().getOriginalTitle();
-                Picasso.with(Activity_Movie_Detail.this).load("http://image.tmdb.org/t/p/w500"+response.body().getBackdropPath()).fit().into(img_view_movie_detail);
-                Picasso.with(Activity_Movie_Detail.this).load("http://image.tmdb.org/t/p/w500"+response.body().getPosterPath()).fit().into(img_view_movie_detail_one);
-                year.setText(Utilites.year(response.body().getReleaseDate()));
-                duration.setText(String.valueOf(response.body().getRuntime())+" minutes");
-                title.setText(response.body().getTitle());
-                StringBuilder stringBuilder=new StringBuilder();
-                for(int a=0;a<response.body().getGenres().size();a++)
-                {
-                    stringBuilder.append(response.body().getGenres().get(a).getName()+",");
-                }
-                String withoutcomma=stringBuilder.toString();
-                if(withoutcomma.endsWith(",")) {
+                    @Override
+                    public void onError(Throwable e) {
 
-                    withoutcomma= withoutcomma.substring(0, withoutcomma.length() - 1);
-                }
-                category.setText(withoutcomma);
+                    }
 
-            }
+                    @Override
+                    public void onNext(MovieMovie movieMovie) {
+                        progressDialog.hide();
 
-            @Override
-            public void onFailure(Call<MovieMovie> call, Throwable t) {
+                        if(movieMovie.getHomepage()!=null)
+                        {
+                            homepage=movieMovie.getHomepage();
 
-            }
-        });
+                        }
+                        movieMovie.getHomepage();
+                        title_name=movieMovie.getOriginalTitle();
+                        Picasso.with(Activity_Movie_Detail.this).load("http://image.tmdb.org/t/p/w500"+movieMovie.getBackdropPath()).fit().into(img_view_movie_detail);
+                        Picasso.with(Activity_Movie_Detail.this).load("http://image.tmdb.org/t/p/w500"+movieMovie.getPosterPath()).fit().into(img_view_movie_detail_one);
+                        year.setText(Utilites.year(movieMovie.getReleaseDate()));
+                        duration.setText(String.valueOf(movieMovie.getRuntime())+" minutes");
+                        title.setText(movieMovie.getTitle());
+                        StringBuilder stringBuilder=new StringBuilder();
+                        for(int a=0;a<movieMovie.getGenres().size();a++)
+                        {
+                            stringBuilder.append(movieMovie.getGenres().get(a).getName()+",");
+                        }
+                        String withoutcomma=stringBuilder.toString();
+                        if(withoutcomma.endsWith(",")) {
+
+                            withoutcomma= withoutcomma.substring(0, withoutcomma.length() - 1);
+                        }
+                        category.setText(withoutcomma);
+                    }
+                });
         }
        public void Get_Widgets()
         {

@@ -77,8 +77,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
             android:gravity="center"
-            android:layout_marginLeft="@dimen/tv_discover_margin_left"
+            android:layout_marginLeft="30dp"
             android:textStyle="bold"
             android:layout_marginTop="@dimen/tv_discover_margin_top"
             android:textSize="@dimen/tv_heading_size"

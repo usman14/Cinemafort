@@ -35,6 +35,9 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class Fragment_Popular extends Fragment {
     private final static String API_KEY = "7e8f60e325cd06e164799af1e317d7a7";
@@ -57,41 +60,51 @@ public class Fragment_Popular extends Fragment {
         isProductViewAsList=true;
         ApiInterface apiService1 =
                 ApiClient.getClient().create(ApiInterface.class);
-        Call<Token_new> detail = apiService1.gettoken(API_KEY);
-        detail.enqueue(new Callback<Token_new>() {
-            @Override
-            public void onResponse(Call<Token_new> call, Response<Token_new> response) {
-                token=response.body().request_token;
-                //Toast.makeText(getContext(),token,Toast.LENGTH_SHORT).show();
-                String urls="https://www.themoviedb.org/authenticate/"+token;
-                final Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse(urls));
-                //startActivity(intent);
-            }
+        rx.Observable<Token_new> call = apiService1.gettoken(API_KEY);
+        call.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Token_new>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
 
-            @Override
-            public void onFailure(Call<Token_new> call, Throwable t) {
+                    @Override
+                    public void onError(Throwable e) {
 
-            }
-        });
+                    }
+
+                    @Override
+                    public void onNext(Token_new token_new) {
+                        token=token_new.request_token;
+                        //Toast.makeText(getContext(),token,Toast.LENGTH_SHORT).show();
+                        String urls="https://www.themoviedb.org/authenticate/"+token;
+                        final Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse(urls));
+                        //startActivity(intent);
+                    }
+                });
         final ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<MoviesResponse> call = apiService.getpopular(API_KEY);
-        call.enqueue(new Callback<MoviesResponse>() {
-            @Override
-            public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
-                int statusCode = response.code();
-                list= response.body().getResults();
-                Recyler_Creater(list);
-            }
+        rx.Observable<MoviesResponse> call_1 = apiService.getpopular(API_KEY);
+        call_1.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<MoviesResponse>() {
+                    @Override
+                    public void onCompleted() {
 
-            @Override
-            public void onFailure(Call<MoviesResponse> call, Throwable t) {
+                    }
 
-            }
-        });
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(getActivity(),e.toString(),Toast.LENGTH_LONG).show();
 
+                    }
+
+                    @Override
+                    public void onNext(MoviesResponse moviesResponse) {
+                        list= moviesResponse.getResults();
+                        Recyler_Creater(list);
+                    }
+                });
         return v;
     }
     private void setLayoutManager() {

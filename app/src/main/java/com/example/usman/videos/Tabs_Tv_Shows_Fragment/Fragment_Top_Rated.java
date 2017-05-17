@@ -35,6 +35,9 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by usman on 5/3/2017.
@@ -72,22 +75,28 @@ public class Fragment_Top_Rated extends Fragment {
             final ApiInterface apiService =
                     ApiClient.getClient().create(ApiInterface.class);
 
-            Call<Tv_Shows_Popular> call = apiService.get_tvshow_toprated(API_KEY);
-            call.enqueue(new Callback<Tv_Shows_Popular>() {
-                @Override
-                public void onResponse(Call<Tv_Shows_Popular> call, Response<Tv_Shows_Popular> response) {
-                    int statusCode = response.code();
-                    Tv_Shows_Popular_Results[] list_object;
-                    list_object=response.body().getResults();
-                    list= Arrays.asList(list_object);
-                    Recyler_Creater_List_View(list);
-                }
+            rx.Observable<Tv_Shows_Popular> call = apiService.get_tvshow_toprated(API_KEY);
+            call.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<Tv_Shows_Popular>() {
+                        @Override
+                        public void onCompleted() {
 
-                @Override
-                public void onFailure(Call<Tv_Shows_Popular> call, Throwable t) {
+                        }
 
-                }
-            });
+                        @Override
+                        public void onError(Throwable e) {
+                            Toast.makeText(getActivity(),e.toString(),Toast.LENGTH_LONG).show();
+
+                        }
+
+                        @Override
+                        public void onNext(Tv_Shows_Popular moviesResponse) {
+                            Tv_Shows_Popular_Results[] list_object;
+                            list_object=moviesResponse.getResults();
+                            list= Arrays.asList(list_object);
+                            Recyler_Creater_List_View(list);
+                        }
+                    });
         }
     }
 

@@ -33,6 +33,9 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by usman on 5/4/2017.
@@ -60,34 +63,40 @@ public class Fragment_Cast extends Fragment{
     public void Set_Adapter()
     {
         ApiInterface apiInterface= ApiClient.getClient().create(ApiInterface.class);
-        final Call<CastCrew> result=apiInterface.getcast(id, Global.key);
-        result.enqueue(new Callback<CastCrew>() {
-            @Override
-            public void onResponse(Call<CastCrew> call, Response<CastCrew> response) {
-                list =response.body().getCast();
-                adapter=new Movie_Cast_Adapter(getContext(), list, new Listener() {
+        final rx.Observable<CastCrew> call=apiInterface.getcast(id, Global.key);
+        call.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<CastCrew>() {
                     @Override
-                    public void onItemClick(View v, int position) {
+                    public void onCompleted() {
 
-                        Intent intent = new Intent(getActivity().getBaseContext(), Activity_Cast.class);
-                        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putInt("cast_id", list.get(position).getId());
-                        editor.commit();
-                        getActivity().startActivity(intent);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(CastCrew castCrew) {
+                        list =castCrew.getCast();
+                        adapter=new Movie_Cast_Adapter(getContext(), list, new Listener() {
+                            @Override
+                            public void onItemClick(View v, int position) {
+
+                                Intent intent = new Intent(getActivity().getBaseContext(), Activity_Cast.class);
+                                sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putInt("cast_id", list.get(position).getId());
+                                editor.commit();
+                                getActivity().startActivity(intent);
+                            }
+                        });
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+                        recyclerView.setAdapter(adapter);
+
                     }
                 });
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-                recyclerView.setAdapter(adapter);
-
-            }
-
-            @Override
-            public void onFailure(Call<CastCrew> call, Throwable t) {
-
-            }
-        });
     }
 }
 

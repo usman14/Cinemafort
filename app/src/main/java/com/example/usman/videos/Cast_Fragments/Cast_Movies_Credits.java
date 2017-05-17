@@ -28,6 +28,9 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by usman on 4/24/2017.
@@ -52,32 +55,37 @@ public class Cast_Movies_Credits extends Fragment {
 
     private void Init() {
         final ApiInterface apiservice= ApiClient.getClient().create(ApiInterface.class);
-        Call<Cast_Movies> result=apiservice.getcast_movie(value, Global.key);
-        result.enqueue(new Callback<Cast_Movies>() {
-            @Override
-            public void onResponse(Call<Cast_Movies> call, Response<Cast_Movies> response) {
-                Cast_1[] list_objects=response.body().getCast();
-                list= Arrays.asList(list_objects);
-                adapter=new Cast_Movies_Adapter(getContext(), list, new Listener() {
+        rx.Observable<Cast_Movies> result=apiservice.getcast_movie(value, Global.key);
+        result.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Cast_Movies>() {
                     @Override
-                    public void onItemClick(View v, int position) {
-                    Intent intent=new Intent(getContext(), Activity_Movie_Detail.class);
-                        SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(getContext());
-                        SharedPreferences.Editor editor=sharedPreferences.edit();
-                        editor.putInt("movie_id",Integer.parseInt(list.get(position).getId()));
-                        editor.commit();
-                        getActivity().startActivity(intent);
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Cast_Movies cast_movies) {
+                        Cast_1[] list_objects=cast_movies.getCast();
+                        list= Arrays.asList(list_objects);
+                        adapter=new Cast_Movies_Adapter(getContext(), list, new Listener() {
+                            @Override
+                            public void onItemClick(View v, int position) {
+                                Intent intent=new Intent(getContext(), Activity_Movie_Detail.class);
+                                SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(getContext());
+                                SharedPreferences.Editor editor=sharedPreferences.edit();
+                                editor.putInt("movie_id",Integer.parseInt(list.get(position).getId()));
+                                editor.commit();
+                                getActivity().startActivity(intent);
+                            }
+                        });
+                        rv.setLayoutManager(new GridLayoutManager(getContext(),3));
+                        rv.setAdapter(adapter);
                     }
                 });
-                rv.setLayoutManager(new GridLayoutManager(getContext(),3));
-                rv.setAdapter(adapter);
-            }
-
-            @Override
-            public void onFailure(Call<Cast_Movies> call, Throwable t) {
-
-            }
-        });
-
-    }
+        }
 }

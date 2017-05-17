@@ -41,6 +41,9 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by usman on 4/29/2017.
@@ -224,7 +227,7 @@ public class Fragment_Advanced_Search extends Fragment {
     public void Get_Results() {
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
-        Call<Discover_Pojo> result;
+        rx.Observable<Discover_Pojo> result;
         if (Integer.valueOf(tv_yearone.getText().toString()) >= (Integer.parseInt(tv_yeartwo.getText().toString()))) {
             tv_yearone.setText(tv_yeartwo.getText());
         }
@@ -241,39 +244,41 @@ public class Fragment_Advanced_Search extends Fragment {
                     Integer.valueOf(tv_yeartwo.getText().toString()), category, sorting);
 
         }
+result.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Discover_Pojo>() {
+    @Override
+    public void onCompleted() {
 
-        result.enqueue(new Callback<Discover_Pojo>() {
+    }
+
+    @Override
+    public void onError(Throwable e) {
+        Toast.makeText(getContext(), e.toString(), Toast.LENGTH_LONG).show();
+
+    }
+
+    @Override
+    public void onNext(Discover_Pojo discover_pojo) {
+        arraylist = discover_pojo.getResults();
+        list = new ArrayList<>();
+        list = Arrays.asList(arraylist);
+        arraylist = list.toArray(arraylist);
+        adapter = new Discover_Movie_Adapter(getContext(), list, new Listener() {
             @Override
-            public void onResponse(Call<Discover_Pojo> call, Response<Discover_Pojo> response) {
-                int as = response.code();
-                arraylist = response.body().getResults();
-                list = new ArrayList<>();
-                list = Arrays.asList(arraylist);
-                arraylist = list.toArray(arraylist);
-                adapter = new Discover_Movie_Adapter(getContext(), list, new Listener() {
-                    @Override
-                    public void onItemClick(View v, int position) {
-                        Intent intent = new Intent(getContext(), Activity_Movie_Detail.class);
-                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putInt("movie_id", Integer.parseInt(list.get(position).getId()));
-                        editor.commit();
-                        startActivity(intent);
-                    }
-                });
-
-                rv.setLayoutManager(new LinearLayoutManager(getContext()));
-                rv.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
-
-
-            @Override
-            public void onFailure(Call<Discover_Pojo> call, Throwable t) {
-                Toast.makeText(getContext(), call.toString(), Toast.LENGTH_LONG).show();
-
+            public void onItemClick(View v, int position) {
+                Intent intent = new Intent(getContext(), Activity_Movie_Detail.class);
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("movie_id", Integer.parseInt(list.get(position).getId()));
+                editor.commit();
+                startActivity(intent);
             }
         });
+
+        rv.setLayoutManager(new LinearLayoutManager(getContext()));
+        rv.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
+});
 
     }
     @Override

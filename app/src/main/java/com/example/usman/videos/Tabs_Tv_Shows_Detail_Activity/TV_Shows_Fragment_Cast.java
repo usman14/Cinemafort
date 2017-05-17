@@ -27,6 +27,9 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by usman on 5/3/2017.
@@ -53,35 +56,39 @@ public class TV_Shows_Fragment_Cast extends Fragment {
     private void Get_Data() {
 
         final ApiInterface apiservice= ApiClient.getClient().create(ApiInterface.class);
-        Call<CastCrew> result=apiservice.get_tv_show_cast(String.valueOf(tv_show_id), Global.key);
-        result.enqueue(new Callback<CastCrew>() {
-            @Override
-            public void onResponse(Call<CastCrew> call, Response<CastCrew> response) {
-                CastCrew castcrew=response.body();
-                final List<Cast_one> cast=castcrew.getCast();
-                adapter =new Tv_Show_Cast_Adapter(getContext(), cast, new Listener() {
+        rx.Observable<CastCrew> result=apiservice.get_tv_show_cast(String.valueOf(tv_show_id), Global.key);
+        result.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<CastCrew>() {
                     @Override
-                    public void onItemClick(View v, int position) {
-                        Intent intent=new Intent(getActivity().getBaseContext(),Activity_Cast.class);
-                        sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getContext());
-                        SharedPreferences.Editor editor=sharedPreferences.edit();
-                        editor.putInt("cast_id",cast.get(position).getId());
-                        editor.commit();
-                        getActivity().startActivity(intent);
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(CastCrew castCrew) {
+                        CastCrew castcrew=castCrew;
+                        final List<Cast_one> cast=castcrew.getCast();
+                        adapter =new Tv_Show_Cast_Adapter(getContext(), cast, new Listener() {
+                            @Override
+                            public void onItemClick(View v, int position) {
+                                Intent intent=new Intent(getActivity().getBaseContext(),Activity_Cast.class);
+                                sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getContext());
+                                SharedPreferences.Editor editor=sharedPreferences.edit();
+                                editor.putInt("cast_id",cast.get(position).getId());
+                                editor.commit();
+                                getActivity().startActivity(intent);
+                            }
+                        });
+                        rv.setLayoutManager(new LinearLayoutManager(getContext()));
+
+                        rv.setAdapter(adapter);
                     }
                 });
-                rv.setLayoutManager(new LinearLayoutManager(getContext()));
-
-                rv.setAdapter(adapter);
-            }
-
-            @Override
-            public void onFailure(Call<CastCrew> call, Throwable t) {
-
-            }
-        });
-
-
     }
 }
 

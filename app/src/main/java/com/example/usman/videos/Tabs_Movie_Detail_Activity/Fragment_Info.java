@@ -54,6 +54,9 @@ import io.realm.RealmConfiguration;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by usman on 4/18/2017.
@@ -144,129 +147,147 @@ public class Fragment_Info extends Fragment {
         final ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
         //int value= getArguments().getInt("id");
-        Call<MovieMovie> call = apiService.getMovieDetails(value, Global.key);
-        call.enqueue(new Callback<MovieMovie>() {
-            @Override
-            public void onResponse(Call<MovieMovie> call, Response<MovieMovie> response) {
-                int statusCode = response.code();
-                ratingone.setText(String.valueOf(response.body().getVoteAverage()));
-                //ratingtwo.setText(String.valueOf(response.body().getPopularity().shortValue()));
-                description.setText(response.body().getOverview());
-                date.setText(response.body().getReleaseDate());
-                //director.setText(response.body().get);
-                budget.setText("$ " + NumberFormat.getNumberInstance(Locale.US).format(response.body().getBudget()));
-                revenue.setText("$ " + NumberFormat.getNumberInstance(Locale.US).format(response.body().getRevenue()));
-                year=response.body().getReleaseDate();
-                title=response.body().getTitle();
-                image_path=response.body().getBackdropPath();
-                movie_id=response.body().getId();
-                rating=response.body().getVoteAverage().toString();
+        rx.Observable<MovieMovie> call = apiService.getMovieDetails(value, Global.key);
+        call.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<MovieMovie>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
 
-            }
+                    @Override
+                    public void onError(Throwable e) {
 
-            @Override
-            public void onFailure(Call<MovieMovie> call, Throwable t) {
+                    }
 
-            }
-        });
+                    @Override
+                    public void onNext(MovieMovie movieMovie) {
+                        ratingone.setText(String.valueOf(movieMovie.getVoteAverage()));
+                        //ratingtwo.setText(String.valueOf(movieMovie.getPopularity().shortValue()));
+                        description.setText(movieMovie.getOverview());
+                        date.setText(movieMovie.getReleaseDate());
+                        //director.setText(movieMovie.get);
+                        budget.setText("$ " + NumberFormat.getNumberInstance(Locale.US).format(movieMovie.getBudget()));
+                        revenue.setText("$ " + NumberFormat.getNumberInstance(Locale.US).format(movieMovie.getRevenue()));
+                        year=movieMovie.getReleaseDate();
+                        title=movieMovie.getTitle();
+                        image_path=movieMovie.getBackdropPath();
+                        movie_id=movieMovie.getId();
+                        rating=movieMovie.getVoteAverage().toString();
+                    }
+                });
     }
 
     public void Set_Trailer() {
         final ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
         //int value= getArguments().getInt("id");
-        Call<Trailer> call = apiService.gettrailer(String.valueOf(value), Global.key);
-        call.enqueue(new Callback<Trailer>() {
-            @Override
-            public void onResponse(Call<Trailer> call, Response<Trailer> response) {
-                int statusCode = response.code();
-                Results[] results = response.body().getResults();
-                List_trailer = new ArrayList<>();
-                results_trailer = List_trailer.toArray(results);
-                List_trailer = Arrays.asList(results);
-                movie_Trailer_Adapter = new Movie_Trailer_Adapter(getContext(), List_trailer, new Listener() {
+        rx.Observable<Trailer> call = apiService.gettrailer(String.valueOf(value), Global.key);
+        call.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Trailer>() {
                     @Override
-                    public void onItemClick(View v, int position) {
-                        final Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse("http://m.youtube.com/watch?v=" +
-                                List_trailer.get(position + 1).getKey()));
-                        startActivity(intent);
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Trailer trailer) {
+                        Results[] results = trailer.getResults();
+                        List_trailer = new ArrayList<>();
+                        results_trailer = List_trailer.toArray(results);
+                        List_trailer = Arrays.asList(results);
+                        movie_Trailer_Adapter = new Movie_Trailer_Adapter(getContext(), List_trailer, new Listener() {
+                            @Override
+                            public void onItemClick(View v, int position) {
+                                final Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse("http://m.youtube.com/watch?v=" +
+                                        List_trailer.get(position + 1).getKey()));
+                                startActivity(intent);
+                            }
+                        });
+                        LinearLayoutManager horizontalLayoutManagaer
+                                = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+                        rv_trailer.setLayoutManager(horizontalLayoutManagaer);
+                        //rv_trailer.setLayoutManager(new GridLayoutManager(getContext(),2));
+
+                        rv_trailer.setAdapter(movie_Trailer_Adapter);
+
                     }
                 });
-                LinearLayoutManager horizontalLayoutManagaer
-                        = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-                rv_trailer.setLayoutManager(horizontalLayoutManagaer);
-                //rv_trailer.setLayoutManager(new GridLayoutManager(getContext(),2));
-
-                rv_trailer.setAdapter(movie_Trailer_Adapter);
-
-
-            }
-
-            @Override
-            public void onFailure(Call<Trailer> call, Throwable t) {
-
-            }
-        });
     }
 
     public void Set_Simliar_Movies() {
         final ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
         //int value= getArguments().getInt("id");
-        Call<Similiar_Movies> call = apiService.getsimiliarmovies(String.valueOf(value), Global.key);
-        call.enqueue(new Callback<Similiar_Movies>() {
-            @Override
-            public void onResponse(Call<Similiar_Movies> call, Response<Similiar_Movies> response) {
-                int statusCode = response.code();
-                Similiar_Movie_Results[] results = response.body().getResults();
-                //results_similiar_movies=List_trailer.toArray(results);
-                List_similiar_movies = Arrays.asList(results);
-                //List_trailer.get(1).g
-                movie_Similiar_Movie_Adapter = new Movie_Similiar_Movie_Adapter(getContext(), List_similiar_movies, new Listener() {
+        rx.Observable<Similiar_Movies> call = apiService.getsimiliarmovies(String.valueOf(value), Global.key);
+        call.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Similiar_Movies>() {
                     @Override
-                    public void onItemClick(View v, int position) {
-                        Intent intent = new Intent(getActivity().getBaseContext(), Activity_Movie_Detail.class);
-                        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putInt("movie_id", Integer.parseInt(List_similiar_movies.get(position).getId()));
-                        editor.commit();
-                        intent.putExtra("movie_id", Integer.parseInt(List_similiar_movies.get(position).getId()));
-                        getActivity().startActivity(intent);
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Similiar_Movies similiar_movies) {
+                        Similiar_Movie_Results[] results = similiar_movies.getResults();
+                        //results_similiar_movies=List_trailer.toArray(results);
+                        List_similiar_movies = Arrays.asList(results);
+                        //List_trailer.get(1).g
+                        movie_Similiar_Movie_Adapter = new Movie_Similiar_Movie_Adapter(getContext(), List_similiar_movies, new Listener() {
+                            @Override
+                            public void onItemClick(View v, int position) {
+                                Intent intent = new Intent(getActivity().getBaseContext(), Activity_Movie_Detail.class);
+                                sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putInt("movie_id", Integer.parseInt(List_similiar_movies.get(position).getId()));
+                                editor.commit();
+                                intent.putExtra("movie_id", Integer.parseInt(List_similiar_movies.get(position).getId()));
+                                getActivity().startActivity(intent);
+                            }
+                        });
+                        LinearLayoutManager horizontalLayoutManagaer
+                                = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+                        rv_similiar_movie.setLayoutManager(horizontalLayoutManagaer);
+                        //rv_trailer.setLayoutManager(new GridLayoutManager(getContext(),2));
+
+                        rv_similiar_movie.setAdapter(movie_Similiar_Movie_Adapter);
+
+
                     }
                 });
-                LinearLayoutManager horizontalLayoutManagaer
-                        = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-                rv_similiar_movie.setLayoutManager(horizontalLayoutManagaer);
-                //rv_trailer.setLayoutManager(new GridLayoutManager(getContext(),2));
-
-                rv_similiar_movie.setAdapter(movie_Similiar_Movie_Adapter);
-
-
-            }
-
-            @Override
-            public void onFailure(Call<Similiar_Movies> call, Throwable t) {
-
-            }
-        });
     }
 
     public void Get_Token() {
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
-        Call<Token_new> token_newCall = apiInterface.gettoken(Global.key);
-        token_newCall.enqueue(new Callback<Token_new>() {
-            @Override
-            public void onResponse(Call<Token_new> call, Response<Token_new> response) {
-                token = response.body().request_token;
+        rx.Observable<Token_new> call = apiInterface.gettoken(Global.key);
+        call.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Token_new>() {
+                    @Override
+                    public void onCompleted() {
 
-            }
+                    }
 
-            @Override
-            public void onFailure(Call<Token_new> call, Throwable t) {
+                    @Override
+                    public void onError(Throwable e) {
 
-            }
-        });
+                    }
+
+                    @Override
+                    public void onNext(Token_new token_new) {
+                        token = token_new.request_token;
+
+                    }
+                });
     }
 
     public void Rate() {
@@ -301,20 +322,25 @@ public class Fragment_Info extends Fragment {
                             realm_session_id.getSession_id();
                             Value values=new Value(ratingBar.getRating()*2);
                             ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
-                            Call<Rating> token_newCall = apiInterface.give_rating("application/json;charset=utf-8",value,Global.key,realm_session_id.getSession_id(),
-                                    values);
-                            token_newCall.enqueue(new Callback<Rating>() {
-                                @Override
-                                public void onResponse(Call<Rating> call, Response<Rating> response) {
-                                    Toast.makeText(getContext(),response.body().getStatus_message(),Toast.LENGTH_LONG).show();
+                            rx.Observable<Rating> call = apiInterface.give_rating("application/json;charset=utf-8",value,Global.key,realm_session_id.getSession_id(), values);
+                            call.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new Subscriber<Rating>() {
+                                        @Override
+                                        public void onCompleted() {
 
-                                }
+                                        }
 
-                                @Override
-                                public void onFailure(Call<Rating> call, Throwable t) {
+                                        @Override
+                                        public void onError(Throwable e) {
 
-                                }
-                            });
+                                        }
+
+                                        @Override
+                                        public void onNext(Rating rating) {
+                                            Toast.makeText(getContext(),rating.getStatus_message(),Toast.LENGTH_LONG).show();
+
+                                        }
+                                    });
 
                         }
                     });

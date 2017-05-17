@@ -33,6 +33,9 @@ import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 public class Fragment_WebApi extends Activity {
@@ -84,28 +87,34 @@ public class Fragment_WebApi extends Activity {
                 {
 
                     ApiInterface apiInterface= ApiClient.getClient().create(ApiInterface.class);
-                    Call<Token_new> result=apiInterface.getsession(Global.key,token);
-                    result.enqueue(new Callback<Token_new>() {
-                        @Override
-                        public void onResponse(Call<Token_new> call, Response<Token_new> response) {
-                          tokennew[0] =response.body().getSession_id();
-
-                            realm.executeTransaction(new Realm.Transaction() {
+                    rx.Observable<Token_new> result=apiInterface.getsession(Global.key,token);
+                    result.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<Token_new>() {
                                 @Override
-                                public void execute(Realm realm) {
-                                    Realm_Session_Id realm_session_id=realm.createObject(Realm_Session_Id.class);
-                                    realm_session_id.setSession_id(tokennew[0]);
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(Token_new token_new) {
+                                    tokennew[0] =token_new.getSession_id();
+
+                                    realm.executeTransaction(new Realm.Transaction() {
+                                        @Override
+                                        public void execute(Realm realm) {
+                                            Realm_Session_Id realm_session_id=realm.createObject(Realm_Session_Id.class);
+                                            realm_session_id.setSession_id(tokennew[0]);
+                                        }
+                                    });
+                                    Long count=realm.where(Realm_Session_Id.class).count();
+                                    Toast.makeText(getApplication(),count.toString(),Toast.LENGTH_SHORT).show();
                                 }
                             });
-                            Long count=realm.where(Realm_Session_Id.class).count();
-                            Toast.makeText(getApplication(),count.toString(),Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onFailure(Call<Token_new> call, Throwable t) {
-
-                        }
-                    });
                 }
 
             }

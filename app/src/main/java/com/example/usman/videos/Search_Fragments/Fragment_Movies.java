@@ -32,6 +32,9 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by usman on 4/24/2017.
@@ -57,38 +60,40 @@ public class Fragment_Movies extends Fragment {
 
     private void Init(String s) {
         final ApiInterface apiInterface= ApiClient.getClient().create(ApiInterface.class);
-        Call<Search_Movies> call=apiInterface.getsearch_movie(s, Global.key);
-        call.enqueue(new Callback<Search_Movies>() {
-            @Override
-            public void onResponse(Call<Search_Movies> call, Response<Search_Movies> response) {
-                int as=response.code();
-                arraylist=response.body().getResults();
-                list = new ArrayList<>();
-                list= Arrays.asList(arraylist);
-                arraylist= list.toArray(arraylist);
-                adapter=new Search_Movie_Adapter(getContext(), list, new Listener() {
+        rx.Observable<Search_Movies> call=apiInterface.getsearch_movie(s, Global.key);
+        call.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Search_Movies>() {
                     @Override
-                    public void onItemClick(View v, int position) {
-                        Intent intent=new Intent(getContext(), Activity_Movie_Detail.class);
-                        SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(getContext());
-                        SharedPreferences.Editor editor=sharedPreferences.edit();
-                        editor.putInt("movie_id",Integer.parseInt(list.get(position).getId()));
-                        editor.commit();
-                        getActivity().startActivity(intent);
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Search_Movies search_movies) {
+                        arraylist=search_movies.getResults();
+                        list = new ArrayList<>();
+                        list= Arrays.asList(arraylist);
+                        arraylist= list.toArray(arraylist);
+                        adapter=new Search_Movie_Adapter(getContext(), list, new Listener() {
+                            @Override
+                            public void onItemClick(View v, int position) {
+                                Intent intent=new Intent(getContext(), Activity_Movie_Detail.class);
+                                SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(getContext());
+                                SharedPreferences.Editor editor=sharedPreferences.edit();
+                                editor.putInt("movie_id",Integer.parseInt(list.get(position).getId()));
+                                editor.commit();
+                                getActivity().startActivity(intent);
+                            }
+                        });
+                        rv.setLayoutManager(new LinearLayoutManager(getContext()));
+                        rv.setAdapter(adapter);
                     }
                 });
-                rv.setLayoutManager(new LinearLayoutManager(getContext()));
-                rv.setAdapter(adapter);
-            }
-
-
-            @Override
-            public void onFailure(Call<Search_Movies> call, Throwable t) {
-
-            }
-        });
-
-
     }
     @Override
     public void onPrepareOptionsMenu(Menu menu) {

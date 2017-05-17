@@ -55,6 +55,9 @@ import io.realm.RealmConfiguration;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by usman on 5/3/2017.
@@ -128,136 +131,157 @@ public class TV_Shows_Fragment_Info extends Fragment {
     public void Set_Text() {
         final ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
-        Call<Tv_Shows_Detail_Basic> call = apiService.get_tv_show_detail_basic(number, Global.key);
-        call.enqueue(new Callback<Tv_Shows_Detail_Basic>() {
-            @Override
-            public void onResponse(Call<Tv_Shows_Detail_Basic> call, Response<Tv_Shows_Detail_Basic> response) {
-                int statusCode = response.code();
-                ratingone.setText(String.valueOf(response.body().getVote_average()));
-                ratingtwo.setText(String.valueOf(response.body().getVote_count()));
-                description.setText(response.body().getOverview());
-                date.setText(response.body().getFirst_air_date());
-                director.setText(response.body().getLast_air_date());
-                title=response.body().getOriginal_name();
-                image_path=response.body().getBackdrop_path();
-                rating=response.body().getVote_average();
-                tv_show_id=Integer.parseInt(response.body().getId());
-                Networks[] list=response.body().getNetworks();
-                List<Networks> listed=Arrays.asList(list);
-                StringBuilder stringbuilder=new StringBuilder();
-                for(int a=0;a<listed.size();a++)
-                {
-                    stringbuilder.append(listed.get(a).getName());
-                }
+        rx.Observable<Tv_Shows_Detail_Basic> call = apiService.get_tv_show_detail_basic(number, Global.key);
+        call.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Tv_Shows_Detail_Basic>() {
+                    @Override
+                    public void onCompleted() {
 
-                budget.setText(stringbuilder.toString());
-                Created_by[] createdby=response.body().getCreated_by();
-                List<Created_by> listcreate=Arrays.asList(createdby);
-                int sizecreate=listcreate.size();
-                StringBuilder stringBuilder = new StringBuilder();
-                for(int a=0;a<sizecreate;a++)
-                {
-                    stringBuilder.append(listcreate.get(a).getName().toString()+", ");
-                }
-                revenue.setText(stringBuilder.toString());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Tv_Shows_Detail_Basic tv_shows_detail_basic) {
+                        ratingone.setText(String.valueOf(tv_shows_detail_basic.getVote_average()));
+                        description.setText(tv_shows_detail_basic.getOverview());
+                        date.setText(tv_shows_detail_basic.getFirst_air_date());
+                        director.setText(tv_shows_detail_basic.getLast_air_date());
+                        title=tv_shows_detail_basic.getOriginal_name();
+                        image_path=tv_shows_detail_basic.getBackdrop_path();
+                        rating=tv_shows_detail_basic.getVote_average();
+                        tv_show_id=Integer.parseInt(tv_shows_detail_basic.getId());
+                        Networks[] list=tv_shows_detail_basic.getNetworks();
+                        List<Networks> listed=Arrays.asList(list);
+                        StringBuilder stringbuilder=new StringBuilder();
+                        for(int a=0;a<listed.size();a++)
+                        {
+                            stringbuilder.append(listed.get(a).getName());
+                        }
+
+                        budget.setText(stringbuilder.toString());
+                        Created_by[] createdby=tv_shows_detail_basic.getCreated_by();
+                        List<Created_by> listcreate=Arrays.asList(createdby);
+                        int sizecreate=listcreate.size();
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for(int a=0;a<sizecreate;a++)
+                        {
+                            stringBuilder.append(listcreate.get(a).getName().toString()+", ");
+                        }
+                        revenue.setText(stringBuilder.toString());
 
 
-            }
-
-            @Override
-            public void onFailure(Call<Tv_Shows_Detail_Basic> call, Throwable t) {
-
-            }
-        });
+                    }
+                });
     }
 
     public void Set_Trailer() {
         final ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
         //int tv_show_id= getArguments().getInt("id");
-        Call<Tv_Shows_trailer> call = apiService.get_tv_show_trailer(String.valueOf(tv_show_id), Global.key);
-        call.enqueue(new Callback<Tv_Shows_trailer>() {
-            @Override
-            public void onResponse(Call<Tv_Shows_trailer> call, Response<Tv_Shows_trailer> response) {
-                int statusCode = response.code();
-                Tv_Shows_trailer_Results[] results = response.body().getResults();
-                List_trailer = new ArrayList<>();
-                results_trailer = List_trailer.toArray(results);
-                List_trailer = Arrays.asList(results);
-                movie_Trailer_Adapter = new Tv_Shows_Trailer_Adapter(getContext(), List_trailer, new Listener() {
+        rx.Observable<Tv_Shows_trailer> call = apiService.get_tv_show_trailer(String.valueOf(tv_show_id), Global.key);
+        call.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Tv_Shows_trailer>() {
                     @Override
-                    public void onItemClick(View v, int position) {
-                        final Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse("http://m.youtube.com/watch?v=" +
-                                List_trailer.get(position + 1).getKey()));
-                        startActivity(intent);
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Tv_Shows_trailer tv_shows_trailer) {
+                        Tv_Shows_trailer_Results[] results =tv_shows_trailer.getResults();
+                        List_trailer = new ArrayList<>();
+                        results_trailer = List_trailer.toArray(results);
+                        List_trailer = Arrays.asList(results);
+                        movie_Trailer_Adapter = new Tv_Shows_Trailer_Adapter(getContext(), List_trailer, new Listener() {
+                            @Override
+                            public void onItemClick(View v, int position) {
+                                final Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse("http://m.youtube.com/watch?v=" +
+                                        List_trailer.get(position + 1).getKey()));
+                                startActivity(intent);
+                            }
+                        });
+                        LinearLayoutManager horizontalLayoutManagaer
+                                = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+                        rv_trailer.setLayoutManager(horizontalLayoutManagaer);
+                        //rv_trailer.setLayoutManager(new GridLayoutManager(getContext(),2));
+
+                        rv_trailer.setAdapter(movie_Trailer_Adapter);
+
+
                     }
                 });
-                LinearLayoutManager horizontalLayoutManagaer
-                        = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-                rv_trailer.setLayoutManager(horizontalLayoutManagaer);
-                //rv_trailer.setLayoutManager(new GridLayoutManager(getContext(),2));
-
-                rv_trailer.setAdapter(movie_Trailer_Adapter);
-
-
-            }
-
-            @Override
-            public void onFailure(Call<Tv_Shows_trailer> call, Throwable t) {
-
-            }
-        });
     }
 
     public void Set_Simliar_Movies() {
         final ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
-        Call<Tv_Shows_Similiar> call = apiService.get_tv_show_similiar_tv_shows(String.valueOf(tv_show_id), Global.key);
-        call.enqueue(new Callback<Tv_Shows_Similiar>() {
-            @Override
-            public void onResponse(Call<Tv_Shows_Similiar> call, Response<Tv_Shows_Similiar> response) {
-                int statusCode = response.code();
-                Tv_Shows_Similiar_Results[] results = response.body().getResults();
-                final List<Tv_Shows_Similiar_Results>   list = Arrays.asList(results);
-                movie_Similiar_Movie_Adapter = new Tv_Shows_Similiar_Shows_Adapter(getContext(), list, new Listener() {
+        rx.Observable<Tv_Shows_Similiar> call = apiService.get_tv_show_similiar_tv_shows(String.valueOf(tv_show_id), Global.key);
+        call.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Tv_Shows_Similiar>() {
                     @Override
-                    public void onItemClick(View v, int position) {
-                        Intent intent = new Intent(getActivity().getBaseContext(), Activity_Tv_Shows_Detail.class);
-                        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putInt("tvshow_id", Integer.parseInt(list.get(position).getId()));
-                        editor.commit();
-                        getActivity().startActivity(intent);
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Tv_Shows_Similiar tv_shows_similiar) {
+                        Tv_Shows_Similiar_Results[] results = tv_shows_similiar.getResults();
+                        final List<Tv_Shows_Similiar_Results>   list = Arrays.asList(results);
+                        movie_Similiar_Movie_Adapter = new Tv_Shows_Similiar_Shows_Adapter(getContext(), list, new Listener() {
+                            @Override
+                            public void onItemClick(View v, int position) {
+                                Intent intent = new Intent(getActivity().getBaseContext(), Activity_Tv_Shows_Detail.class);
+                                sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putInt("tvshow_id", Integer.parseInt(list.get(position).getId()));
+                                editor.commit();
+                                getActivity().startActivity(intent);
+                            }
+                        });
+                        LinearLayoutManager horizontalLayoutManagaer
+                                = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+                        rv_similiar_movie.setLayoutManager(horizontalLayoutManagaer);
+
+                        rv_similiar_movie.setAdapter(movie_Similiar_Movie_Adapter);
                     }
                 });
-                LinearLayoutManager horizontalLayoutManagaer
-                        = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-                rv_similiar_movie.setLayoutManager(horizontalLayoutManagaer);
-
-                rv_similiar_movie.setAdapter(movie_Similiar_Movie_Adapter);
-            }
-            @Override
-            public void onFailure(Call<Tv_Shows_Similiar> call, Throwable t) {
-
-            }
-        });
     }
 
     public void Get_Token() {
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
-        Call<Token_new> token_newCall = apiInterface.gettoken(Global.key);
-        token_newCall.enqueue(new Callback<Token_new>() {
-            @Override
-            public void onResponse(Call<Token_new> call, Response<Token_new> response) {
-                token = response.body().request_token;
+        rx.Observable<Token_new> call = apiInterface.gettoken(Global.key);
+        call.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Token_new>() {
+                    @Override
+                    public void onCompleted() {
 
-            }
+                    }
 
-            @Override
-            public void onFailure(Call<Token_new> call, Throwable t) {
+                    @Override
+                    public void onError(Throwable e) {
 
-            }
-        });
+                    }
+
+                    @Override
+                    public void onNext(Token_new token_new) {
+                        token = token_new.request_token;
+
+                    }
+                });
     }
 
     public void Rate() {
@@ -293,20 +317,25 @@ public class TV_Shows_Fragment_Info extends Fragment {
                             Float rateing=ratingBar.getRating();
                             Value values=new Value(rateing*2);
                             ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
-                            Call<Rating> token_newCall = apiInterface.give_rating("application/json;charset=utf-8",tv_show_id,Global.key,realm_session_id.getSession_id(),
-                                    values);
-                            token_newCall.enqueue(new Callback<Rating>() {
-                                @Override
-                                public void onResponse(Call<Rating> call, Response<Rating> response) {
-                                    Toast.makeText(getContext(),response.body().getStatus_message(),Toast.LENGTH_LONG).show();
-                                }
+                            rx.Observable<Rating> call = apiInterface.give_rating("application/json;charset=utf-8",tv_show_id,Global.key,realm_session_id.getSession_id(), values);
+                            call.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new Subscriber<Rating>() {
+                                        @Override
+                                        public void onCompleted() {
 
-                                @Override
-                                public void onFailure(Call<Rating> call, Throwable t) {
+                                        }
 
-                                }
-                            });
+                                        @Override
+                                        public void onError(Throwable e) {
 
+                                        }
+
+                                        @Override
+                                        public void onNext(Rating rating) {
+                                            Toast.makeText(getContext(),rating.getStatus_message(),Toast.LENGTH_LONG).show();
+
+                                        }
+                                    });
                         }
                     });
                     cancel.setOnClickListener(new View.OnClickListener() {

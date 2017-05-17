@@ -36,6 +36,9 @@ import java.util.Vector;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by usman on 4/22/2017.
@@ -149,20 +152,26 @@ public class Activity_Cast extends AppCompatActivity implements TabHost.OnTabCha
     public void Get_Data()
     {
         ApiInterface apiInterface= ApiClient.getClient().create(ApiInterface.class);
-        Call<Person> callresult=apiInterface.getperson(cast_id, Global.key);
-        callresult.enqueue(new Callback<Person>() {
-            @Override
-            public void onResponse(Call<Person> call, Response<Person> response) {
-                name.setText(response.body().getName());
-                Picasso.with(Activity_Cast.this).load("http://image.tmdb.org/t/p/w500"+response.body().getProfile_path()).fit().into(imageView);
+        rx.Observable<Person> callresult=apiInterface.getperson(cast_id, Global.key);
+        callresult.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Person>() {
+                    @Override
+                    public void onCompleted() {
 
-            }
+                    }
 
-            @Override
-            public void onFailure(Call<Person> call, Throwable t) {
+                    @Override
+                    public void onError(Throwable e) {
 
-            }
-        });
+                    }
+
+                    @Override
+                    public void onNext(Person person) {
+                        name.setText(person.getName());
+                        Picasso.with(Activity_Cast.this).load("http://image.tmdb.org/t/p/w500"+person.getProfile_path()).fit().into(imageView);
+
+                    }
+                });
     }
 
     @Override

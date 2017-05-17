@@ -26,6 +26,9 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by usman on 4/18/2017.
@@ -52,28 +55,33 @@ public class Fragment_Reviews extends Fragment {
     public void Set_Adapter()
     {
         ApiInterface apiInterface= ApiClient.getClient().create(ApiInterface.class);
-        final Call<Review> result=apiInterface.getreview(movieid,Global.key);
-        result.enqueue(new Callback<Review>() {
-            @Override
-            public void onResponse(Call<Review> call, Response<Review> response) {
-                results =response.body().getResults();
-                list= Arrays.asList(results);
-                movie_review_adapter=new Movie_Review_Adapter(getContext(), list, new Listener() {
+        final rx.Observable<Review> result=apiInterface.getreview(movieid,Global.key);
+        result.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Review>() {
                     @Override
-                    public void onItemClick(View v, int position) {
+                    public void onCompleted() {
 
                     }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Review review) {
+                        results =review.getResults();
+                        list= Arrays.asList(results);
+                        movie_review_adapter=new Movie_Review_Adapter(getContext(), list, new Listener() {
+                            @Override
+                            public void onItemClick(View v, int position) {
+
+                            }
+                        });
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+                        recyclerView.setAdapter(movie_review_adapter);
+                    }
                 });
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-                recyclerView.setAdapter(movie_review_adapter);
-
-            }
-
-            @Override
-            public void onFailure(Call<Review> call, Throwable t) {
-
-            }
-        });
     }
 }

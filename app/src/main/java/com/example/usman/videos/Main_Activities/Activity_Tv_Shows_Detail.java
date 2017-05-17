@@ -38,6 +38,9 @@ import java.util.Vector;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by usman on 4/18/2017.
@@ -111,30 +114,35 @@ public class Activity_Tv_Shows_Detail extends AppCompatActivity implements TabHo
         final ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<Tv_Shows_Detail_Basic> call = apiService.get_tv_show_detail_basic(id, Global.key);
-        call.enqueue(new Callback<Tv_Shows_Detail_Basic>() {
-            @Override
-            public void onResponse(Call<Tv_Shows_Detail_Basic> call, Response<Tv_Shows_Detail_Basic> response) {
-                int statusCode = response.code();
-                homepage=response.body().getHomepage();
-                title_name=response.body().getOriginal_name();
-                Picasso.with(Activity_Tv_Shows_Detail.this).load("http://image.tmdb.org/t/p/w500" + response.body().getBackdrop_path()).fit().into(img_view_movie_detail);
-                Picasso.with(Activity_Tv_Shows_Detail.this).load("http://image.tmdb.org/t/p/w500" + response.body().getPoster_path()).fit().into(img_view_movie_detail_one);
-                year.setText(Utilites.year(response.body().getFirst_air_date()));
+        rx.Observable<Tv_Shows_Detail_Basic> call = apiService.get_tv_show_detail_basic(id, Global.key);
+        call.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).
+                subscribe(new Subscriber<Tv_Shows_Detail_Basic>() {
+                    @Override
+                    public void onCompleted() {
 
-                String [] list=response.body().getEpisode_run_time();
-                List<String> listed=Arrays.asList(list);
-                duration.setText(String.valueOf(listed.get(0)+" minutes"));
+                    }
 
-                title.setText(response.body().getOriginal_name());
+                    @Override
+                    public void onError(Throwable e) {
 
-            }
+                    }
 
-            @Override
-            public void onFailure(Call<Tv_Shows_Detail_Basic> call, Throwable t) {
+                    @Override
+                    public void onNext(Tv_Shows_Detail_Basic tv_shows_detail_basic) {
+                        homepage=tv_shows_detail_basic.getHomepage();
+                        title_name=tv_shows_detail_basic.getOriginal_name();
+                        Picasso.with(Activity_Tv_Shows_Detail.this).load("http://image.tmdb.org/t/p/w500" + tv_shows_detail_basic.getBackdrop_path()).fit().into(img_view_movie_detail);
+                        Picasso.with(Activity_Tv_Shows_Detail.this).load("http://image.tmdb.org/t/p/w500" + tv_shows_detail_basic.getPoster_path()).fit().into(img_view_movie_detail_one);
+                        year.setText(Utilites.year(tv_shows_detail_basic.getFirst_air_date()));
 
-            }
-        });
+                        String [] list=tv_shows_detail_basic.getEpisode_run_time();
+                        List<String> listed=Arrays.asList(list);
+                        duration.setText(String.valueOf(listed.get(0)+" minutes"));
+
+                        title.setText(tv_shows_detail_basic.getOriginal_name());
+
+                    }
+                });
         }
        public void Get_Widgets()
         {

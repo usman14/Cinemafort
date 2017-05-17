@@ -138,7 +138,6 @@ public class Activity_Search extends AppCompatActivity implements TabHost.OnTabC
             View v = new View(mContext);
             v.setMinimumHeight(0);
             v.setMinimumWidth(0);
-            //asdf
             return v;
         }
 
