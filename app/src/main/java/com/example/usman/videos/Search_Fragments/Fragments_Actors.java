@@ -92,7 +92,7 @@ public class Fragments_Actors extends Fragment {
                                 Intent intent=new Intent(getContext(), Activity_Cast.class);
                                 SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(getContext());
                                 SharedPreferences.Editor editor=sharedPreferences.edit();
-                                editor.putInt("cast_id",Integer.parseInt(list.get(position).getId()));
+                                editor.putInt("CAST_ID",Integer.parseInt(list.get(position).getId()));
                                 editor.commit();
                                 getActivity().startActivity(intent);
                             }

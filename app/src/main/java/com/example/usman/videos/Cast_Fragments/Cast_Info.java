@@ -33,14 +33,13 @@ public class Cast_Info  extends Fragment {
     TextView born,birthplace,descripition;
     int castid;
     SharedPreferences sharedPreferences;
-    ImageView imageView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.cast_activity_fragment_info,container,false);
         sharedPreferences=PreferenceManager.getDefaultSharedPreferences(getActivity());
-        castid =sharedPreferences.getInt("cast_id",0);
+        castid =sharedPreferences.getInt("CAST_ID",0);
         birthplace=(TextView)v.findViewById(R.id.tv_cast_activity_fragment_info_birthplace_1);
         born=(TextView)v.findViewById(R.id.tv_cast_activity_fragment_info_born_1);
         descripition=(TextView)v.findViewById(R.id.tv_cast_activity_fragment_info_desc);

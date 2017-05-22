@@ -61,7 +61,7 @@ public class Activity_Cast extends AppCompatActivity implements TabHost.OnTabCha
         imageView=(ImageView)findViewById(R.id.img_view_cast_activity);
         name=(TextView)findViewById(R.id.tv_cast_activity_title);
         sharedPreferences=PreferenceManager.getDefaultSharedPreferences(this);
-        cast_id =sharedPreferences.getInt("cast_id",0);
+        cast_id =sharedPreferences.getInt("CAST_ID",0);
         Initialize_Viewpager();
         initializeTabHost();
         Get_Data();

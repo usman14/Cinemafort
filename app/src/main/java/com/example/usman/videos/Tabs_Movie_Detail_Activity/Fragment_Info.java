@@ -51,9 +51,6 @@ import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -102,7 +99,7 @@ public class Fragment_Info extends Fragment {
 
         }
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        value = sharedPreferences.getInt("movie_id", 0);
+        value = sharedPreferences.getInt("MOVIE_ID", 0);
         Set_Text();
         Set_Trailer();
         Set_Simliar_Movies();
@@ -249,9 +246,9 @@ public class Fragment_Info extends Fragment {
                                 Intent intent = new Intent(getActivity().getBaseContext(), Activity_Movie_Detail.class);
                                 sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putInt("movie_id", Integer.parseInt(List_similiar_movies.get(position).getId()));
+                                editor.putInt("MOVIE_ID", Integer.parseInt(List_similiar_movies.get(position).getId()));
                                 editor.commit();
-                                intent.putExtra("movie_id", Integer.parseInt(List_similiar_movies.get(position).getId()));
+                                intent.putExtra("MOVIE_ID", Integer.parseInt(List_similiar_movies.get(position).getId()));
                                 getActivity().startActivity(intent);
                             }
                         });
@@ -381,7 +378,7 @@ public class Fragment_Info extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 if(which==1)
                 {
-                    Long count=realm.where(Realm_Favourite_List.class).equalTo("movie_id",movie_id).count();
+                    Long count=realm.where(Realm_Favourite_List.class).equalTo("MOVIE_ID",movie_id).count();
                     if(count==0)
                     {
                         realm.executeTransaction(new Realm.Transaction() {
@@ -390,7 +387,7 @@ public class Fragment_Info extends Fragment {
 
                                 Realm_Favourite_List realm_favourite_list=realm.createObject(Realm_Favourite_List.class);
                                 realm_favourite_list.setTitle(title);
-                                realm_favourite_list.setMovie_id(movie_id);
+                                realm_favourite_list.setMOVIE_ID(movie_id);
                                 realm_favourite_list.setYear(year);
                                 realm_favourite_list.setImage_path(image_path);
                                 realm_favourite_list.setRating(rating);
@@ -409,7 +406,7 @@ public class Fragment_Info extends Fragment {
 
                 else
                 {
-                    Long count=realm.where(Realm_Watch_List.class).equalTo("movie_id",movie_id).count();
+                    Long count=realm.where(Realm_Watch_List.class).equalTo("MOVIE_ID",movie_id).count();
 
                     if(count==0)
                     {
@@ -419,7 +416,7 @@ public class Fragment_Info extends Fragment {
 
                                 Realm_Watch_List realm_favourite_list=realm.createObject(Realm_Watch_List.class);
                                 realm_favourite_list.setTitle(title);
-                                realm_favourite_list.setMovie_id(value);
+                                realm_favourite_list.setMOVIE_ID(value);
                                 realm_favourite_list.setYear(year);
                                 realm_favourite_list.setImage_path(image_path);
                                 realm_favourite_list.setRating(rating);

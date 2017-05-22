@@ -48,7 +48,7 @@ public class Cast_Movies_Credits extends Fragment {
         View v=inflater.inflate(R.layout.recycler_view_simple,container,false);
         rv=(RecyclerView)v.findViewById(R.id.rv_fragment_cast) ;
         sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getContext());
-        value=sharedPreferences.getInt("cast_id",0);
+        value=sharedPreferences.getInt("CAST_ID",0);
         Init();
         return v;
     }
@@ -78,7 +78,7 @@ public class Cast_Movies_Credits extends Fragment {
                                 Intent intent=new Intent(getContext(), Activity_Movie_Detail.class);
                                 SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(getContext());
                                 SharedPreferences.Editor editor=sharedPreferences.edit();
-                                editor.putInt("movie_id",Integer.parseInt(list.get(position).getId()));
+                                editor.putInt("MOVIE_ID",Integer.parseInt(list.get(position).getId()));
                                 editor.commit();
                                 getActivity().startActivity(intent);
                             }

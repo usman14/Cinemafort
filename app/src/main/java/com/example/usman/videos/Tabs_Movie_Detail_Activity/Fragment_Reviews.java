@@ -47,7 +47,7 @@ public class Fragment_Reviews extends Fragment {
         View v=inflater.inflate(R.layout.recycler_view_simple,container,false);
         recyclerView=(RecyclerView)v.findViewById(R.id.rv_fragment_cast) ;
         sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getContext());
-        movieid=sharedPreferences.getInt("movie_id",0);
+        movieid=sharedPreferences.getInt("MOVIE_ID",0);
         Set_Adapter();
         return v;
     }

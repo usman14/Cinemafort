@@ -29,11 +29,11 @@
         <menu>
             <item
                 android:id="@+id/list_favourite"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/listview"
                 android:title="Favourite List" />
             <item
                 android:id="@+id/list_watch"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/listview"
                 android:title="Watch List" />
         </menu>
     </item>

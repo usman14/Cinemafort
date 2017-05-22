@@ -26,6 +26,7 @@ import com.example.usman.videos.POJO.Review_Results;
 import com.example.usman.videos.R;
 import com.example.usman.videos.UTILITIES.ApiClient;
 import com.example.usman.videos.UTILITIES.Global;
+import com.example.usman.videos.UTILITIES.Session_Management;
 
 import java.util.Arrays;
 import java.util.List;
@@ -49,13 +50,15 @@ public class Fragment_Cast extends Fragment{
         SharedPreferences sharedPreferences;
         RecyclerView recyclerView;
         String id;
+    Session_Management session_management;
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.recycler_view_simple,container,false);
         recyclerView=(RecyclerView)v.findViewById(R.id.rv_fragment_cast) ;
+            session_management=new Session_Management(getContext());
         sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getContext());
-        movieid=sharedPreferences.getInt("movie_id",0);
+        movieid=sharedPreferences.getInt("MOVIE_ID",0);
              id=String.valueOf(movieid);
         Set_Adapter();
         return v;
@@ -84,10 +87,7 @@ public class Fragment_Cast extends Fragment{
                             public void onItemClick(View v, int position) {
 
                                 Intent intent = new Intent(getActivity().getBaseContext(), Activity_Cast.class);
-                                sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putInt("cast_id", list.get(position).getId());
-                                editor.commit();
+                                session_management.cast_id(list.get(position).getId());
                                 getActivity().startActivity(intent);
                             }
                         });

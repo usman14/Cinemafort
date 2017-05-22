@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 public class Cast_one implements Serializable
 {
 
-    @SerializedName("cast_id")
+    @SerializedName("CAST_ID")
     @Expose
     private Integer castId;
     @SerializedName("character")

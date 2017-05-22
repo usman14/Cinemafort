@@ -28,6 +28,7 @@ import com.example.usman.videos.POJO.Tv_Shows_Popular;
 import com.example.usman.videos.POJO.Tv_Shows_Popular_Results;
 import com.example.usman.videos.R;
 import com.example.usman.videos.UTILITIES.ApiClient;
+import com.example.usman.videos.UTILITIES.Session_Management;
 
 import java.util.Arrays;
 import java.util.List;
@@ -52,12 +53,16 @@ public class Fragment_Popular extends Fragment {
     List<Tv_Shows_Popular_Results> list;
     SharedPreferences sharedPreferences;
     private Menu menu;
+    Session_Management session_management;
+
     @Override
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.recycler_view_simple, container, false);
         rv = (RecyclerView) v.findViewById(R.id.rv_fragment_cast);
+        session_management=new Session_Management(getContext());
+
         setHasOptionsMenu(true);
         isProductViewAsList=true;
 
@@ -106,10 +111,8 @@ public class Fragment_Popular extends Fragment {
             @Override
             public void onItemClick(View v, int position) {
                 Intent intent=new Intent(getActivity().getBaseContext(),Activity_Tv_Shows_Detail.class);
-                sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getContext());
-                SharedPreferences.Editor editor=sharedPreferences.edit();
-                editor.putInt("tvshow_id",Integer.parseInt(list.get(position).getId()));
-                editor.commit();
+                session_management.tv_show_id(Integer.parseInt(list.get(position).getId()));
+
                 getActivity().startActivity(intent);
             }
         });
@@ -117,11 +120,15 @@ public class Fragment_Popular extends Fragment {
         rv.setAdapter(adapter);
     }
 
-    public void Recyler_Creater1(List<Tv_Shows_Popular_Results> list)
+    public void Recyler_Creater1(final List<Tv_Shows_Popular_Results> list)
     {
         gridview_adapter=new Tv_Shows_List_Adapter_GridView(getContext(), list, new Listener() {
             @Override
             public void onItemClick(View v, int position) {
+                Intent intent=new Intent(getActivity().getBaseContext(),Activity_Tv_Shows_Detail.class);
+                session_management.tv_show_id(Integer.parseInt(list.get(position).getId()));
+
+                getActivity().startActivity(intent);
             }
         });
         rv.setLayoutManager(new GridLayoutManager(getContext(), 3));

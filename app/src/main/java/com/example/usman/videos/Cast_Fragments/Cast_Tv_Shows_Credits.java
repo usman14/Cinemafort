@@ -48,7 +48,7 @@ public class Cast_Tv_Shows_Credits  extends Fragment {
         View v=inflater.inflate(R.layout.recycler_view_simple,container,false);
         rv=(RecyclerView)v.findViewById(R.id.rv_fragment_cast) ;
         sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getContext());
-        cast_id =sharedPreferences.getInt("cast_id",0);
+        cast_id =sharedPreferences.getInt("CAST_ID",0);
         Get_Data();
         return v;
     }

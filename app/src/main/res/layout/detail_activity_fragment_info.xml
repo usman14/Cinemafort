@@ -130,13 +130,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_movie_detail_one_release_date"
         android:id="@+id/tv_movie_detail_one_budget_one"
-        android:layout_toRightOf="@+id/tv_movie_detail_one_director"/>
+        android:layout_toRightOf="@+id/tv_movie_detail_one_budget"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_movie_detail_one_budget_one"
         android:id="@+id/tv_movie_detail_one_revenue_one"
-        android:layout_toRightOf="@+id/tv_movie_detail_one_director"/>
+        android:layout_toRightOf="@+id/tv_movie_detail_one_revenue"/>
 
     <TextView
         android:layout_width="wrap_content"

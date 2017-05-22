@@ -21,6 +21,7 @@ import com.example.usman.videos.POJO.Cast_one;
 import com.example.usman.videos.R;
 import com.example.usman.videos.UTILITIES.ApiClient;
 import com.example.usman.videos.UTILITIES.Global;
+import com.example.usman.videos.UTILITIES.Session_Management;
 
 import java.util.List;
 
@@ -40,13 +41,15 @@ public class TV_Shows_Fragment_Cast extends Fragment {
     int tv_show_id;
     Tv_Show_Cast_Adapter adapter;
     RecyclerView rv;
+    Session_Management session_management;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.recycler_view_simple,container,false);
         rv =(RecyclerView)v.findViewById(R.id.rv_fragment_cast);
+        session_management=new Session_Management(getContext());
         sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getContext());
-        tv_show_id =sharedPreferences.getInt("tvshow_id",0);
+        tv_show_id =sharedPreferences.getInt("TV_SHOW_ID",0);
         rv =(RecyclerView)v.findViewById(R.id.rv_fragment_cast);
         Get_Data();
 
@@ -77,10 +80,7 @@ public class TV_Shows_Fragment_Cast extends Fragment {
                             @Override
                             public void onItemClick(View v, int position) {
                                 Intent intent=new Intent(getActivity().getBaseContext(),Activity_Cast.class);
-                                sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getContext());
-                                SharedPreferences.Editor editor=sharedPreferences.edit();
-                                editor.putInt("cast_id",cast.get(position).getId());
-                                editor.commit();
+                                session_management.cast_id(cast.get(position).getId());
                                 getActivity().startActivity(intent);
                             }
                         });

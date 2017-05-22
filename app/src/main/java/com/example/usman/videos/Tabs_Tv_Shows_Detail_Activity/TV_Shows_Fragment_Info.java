@@ -52,9 +52,6 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -103,7 +100,7 @@ public class TV_Shows_Fragment_Info extends Fragment {
 
         }
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        tv_show_id = sharedPreferences.getInt("tvshow_id", 0);
+        tv_show_id = sharedPreferences.getInt("TV_SHOW_ID", 0);
         number=String.valueOf(tv_show_id);
         Set_Text();
         Set_Trailer();
@@ -181,7 +178,7 @@ public class TV_Shows_Fragment_Info extends Fragment {
     public void Set_Trailer() {
         final ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
-        //int tv_show_id= getArguments().getInt("id");
+        //int TV_SHOW_ID= getArguments().getInt("id");
         rx.Observable<Tv_Shows_trailer> call = apiService.get_tv_show_trailer(String.valueOf(tv_show_id), Global.key);
         call.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Tv_Shows_trailer>() {
@@ -376,7 +373,7 @@ public class TV_Shows_Fragment_Info extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 if(which==1)
                 {
-                    Long count=realm.where(Realm_Favourite_List.class).equalTo("tv_show_id",tv_show_id).count();
+                    Long count=realm.where(Realm_Favourite_List.class).equalTo("TV_SHOW_ID",tv_show_id).count();
                     if(count==0)
                     {
                         realm.executeTransaction(new Realm.Transaction() {
@@ -385,7 +382,7 @@ public class TV_Shows_Fragment_Info extends Fragment {
 
                                 Realm_Favourite_List realm_favourite_list=realm.createObject(Realm_Favourite_List.class);
                                 realm_favourite_list.setTitle(title);
-                                realm_favourite_list.setTv_show_id(tv_show_id);
+                                realm_favourite_list.setTV_SHOW_ID(tv_show_id);
                                 realm_favourite_list.setYear(year);
                                 realm_favourite_list.setImage_path(image_path);
                                 realm_favourite_list.setRating(rating);
@@ -404,7 +401,7 @@ public class TV_Shows_Fragment_Info extends Fragment {
 
                 else
                 {
-                    Long count=realm.where(Realm_Watch_List.class).equalTo("tv_show_id",tv_show_id).count();
+                    Long count=realm.where(Realm_Watch_List.class).equalTo("TV_SHOW_ID",tv_show_id).count();
 
                     if(count==0)
                     {
@@ -414,7 +411,7 @@ public class TV_Shows_Fragment_Info extends Fragment {
 
                                 Realm_Watch_List realm_favourite_list=realm.createObject(Realm_Watch_List.class);
                                 realm_favourite_list.setTitle(title);
-                                realm_favourite_list.setTv_show_id(tv_show_id);
+                                realm_favourite_list.setTV_SHOW_ID(tv_show_id);
                                 realm_favourite_list.setYear(year);
                                 realm_favourite_list.setImage_path(image_path);
                                 realm_favourite_list.setRating(rating);

@@ -76,7 +76,7 @@ public class Fragment_Popular_People extends Fragment {
                                 Intent intent=new Intent(getActivity().getBaseContext(),Activity_Cast.class);
                                 sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getContext());
                                 SharedPreferences.Editor editor=sharedPreferences.edit();
-                                editor.putInt("cast_id",Integer.parseInt(cast.get(position).getId()));
+                                editor.putInt("CAST_ID",Integer.parseInt(cast.get(position).getId()));
                                 editor.commit();
                                 getActivity().startActivity(intent);
                             }

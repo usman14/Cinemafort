@@ -107,7 +107,7 @@ public class Activity_Tv_Shows_Detail extends AppCompatActivity implements TabHo
         Get_Widgets();
         Intent intent = getIntent();
         sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
-        value=sharedPreferences.getInt("tvshow_id",0);
+        value=sharedPreferences.getInt("TV_SHOW_ID",0);
             String id=String.valueOf(value);
         Initialize_Viewpager();
         initializeTabHost();

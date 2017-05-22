@@ -109,7 +109,7 @@ public class Activity_Movie_Detail extends AppCompatActivity implements TabHost.
         //progressDialog.setMessage("Downloading Videos");
         progressDialog.show();
         sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
-        movie_id =sharedPreferences.getInt("movie_id",0);
+        movie_id =sharedPreferences.getInt("MOVIE_ID",0);
         Initialize_Viewpager();
         initializeTabHost();
         final ApiInterface apiService =

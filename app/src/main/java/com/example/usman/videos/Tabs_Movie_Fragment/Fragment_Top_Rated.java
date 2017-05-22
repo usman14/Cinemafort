@@ -30,6 +30,7 @@ import com.example.usman.videos.INTERFACES.Listener;
 import com.example.usman.videos.POJO.Movie;
 import com.example.usman.videos.POJO.MoviesResponse;
 import com.example.usman.videos.R;
+import com.example.usman.videos.UTILITIES.Session_Management;
 
 import java.util.List;
 
@@ -50,6 +51,7 @@ public class Fragment_Top_Rated extends Fragment {
     String token;
     SharedPreferences sharedPreferences;
     private Menu menu;
+    Session_Management session_management;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -57,6 +59,8 @@ public class Fragment_Top_Rated extends Fragment {
         isProductViewAsList=true;
         View v = inflater.inflate(R.layout.recycler_view_simple, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.rv_fragment_cast);
+        session_management=new Session_Management(getContext());
+
         setHasOptionsMenu(true);
         isProductViewAsList=true;
         ApiInterface apiService1 =
@@ -134,10 +138,8 @@ public class Fragment_Top_Rated extends Fragment {
             public void onItemClick(View v, final int position) {
 
                 Intent intent=new Intent(getActivity().getBaseContext(),Activity_Movie_Detail.class);
-                sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getContext());
-                SharedPreferences.Editor editor=sharedPreferences.edit();
-                editor.putInt("movie_id",list.get(position).getId());
-                editor.commit();
+                session_management.movie_id(list.get(position).getId());
+
                 getActivity().startActivity(intent);
             }
         });
@@ -152,11 +154,8 @@ public class Fragment_Top_Rated extends Fragment {
             public void onItemClick(View v, int position) {
 
                 Intent intent=new Intent(getActivity().getBaseContext(),Activity_Movie_Detail.class);
-                sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getContext());
-                SharedPreferences.Editor editor=sharedPreferences.edit();
-                editor.putInt("movie_id",list.get(position).getId());
-                editor.commit();
-                //intent.putExtra("id",list.get(position).getId());
+                session_management.movie_id(list.get(position).getId());
+
                 getActivity().startActivity(intent);
             }
         });

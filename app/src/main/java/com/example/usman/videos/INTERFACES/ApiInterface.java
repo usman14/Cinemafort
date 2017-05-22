@@ -78,21 +78,21 @@ public interface ApiInterface {
     @GET("authentication/session/new")
     rx.Observable<Token_new> getsession(@Query("api_key") String apiKey,@Query("request_token") String token);
 
-    @GET("movie/{movie_id}/videos")
-    rx.Observable<Trailer> gettrailer(@Path("movie_id") String token,@Query("api_key") String apiKey);
+    @GET("movie/{MOVIE_ID}/videos")
+    rx.Observable<Trailer> gettrailer(@Path("MOVIE_ID") String token,@Query("api_key") String apiKey);
 
-    @GET("movie/{movie_id}/similar")
-    rx.Observable<Similiar_Movies>getsimiliarmovies(@Path("movie_id") String id, @Query("api_key") String apikey);
+    @GET("movie/{MOVIE_ID}/similar")
+    rx.Observable<Similiar_Movies>getsimiliarmovies(@Path("MOVIE_ID") String id, @Query("api_key") String apikey);
 
-    @GET("movie/{movie_id}/credits")
-    rx.Observable<CastCrew> getcast(@Path("movie_id") String id,@Query("api_key") String key);
+    @GET("movie/{MOVIE_ID}/credits")
+    rx.Observable<CastCrew> getcast(@Path("MOVIE_ID") String id,@Query("api_key") String key);
 
-    @POST("movie/{movie_id}/rating")
-    rx.Observable<Rate> getrate(@Header("Content-Type")String header,@Path("movie_id") int id,@Query("api_key")String key,
+    @POST("movie/{MOVIE_ID}/rating")
+    rx.Observable<Rate> getrate(@Header("Content-Type")String header,@Path("MOVIE_ID") int id,@Query("api_key")String key,
                        @Query("session_id") String sessionid);
 
-    @GET("movie/{movie_id}/reviews")
-    rx.Observable<Review> getreview(@Path("movie_id") int id,@Query("api_key") String key );
+    @GET("movie/{MOVIE_ID}/reviews")
+    rx.Observable<Review> getreview(@Path("MOVIE_ID") int id,@Query("api_key") String key );
 
     @GET("person/{person_id}")
     rx.Observable<Person> getperson(@Path("person_id")int personid,@Query("api_key") String apikey);
@@ -124,8 +124,8 @@ public interface ApiInterface {
                                     @Query("primary_release_date.gte")int dateone
             ,@Query("primary_release_date.lte") int datetwo,@Query("with_genres")int genre,@Query("sort_by")String sortby);
 
-    @POST("movie/{movie_id}/rating")
-    rx.Observable<Rating> give_rating(@Header("Content-type")String header,@Path("movie_id") int movieid,@Query("api_key") String apikey,
+    @POST("movie/{MOVIE_ID}/rating")
+    rx.Observable<Rating> give_rating(@Header("Content-type")String header,@Path("MOVIE_ID") int movieid,@Query("api_key") String apikey,
                              @Query("session_id")String sessionid, @Body Value value);
 
 

@@ -32,6 +32,7 @@ import com.example.usman.videos.POJO.Movie;
 import com.example.usman.videos.POJO.MoviesResponse;
 import com.example.usman.videos.R;
 import com.example.usman.videos.POJO.Token_new;
+import com.example.usman.videos.UTILITIES.Session_Management;
 
 import java.util.List;
 
@@ -53,6 +54,7 @@ public class Fragment_Now_Playing extends Fragment {
     SharedPreferences sharedPreferences;
     private Menu menu;
     ProgressDialog progressDialog;
+    Session_Management session_management;
     @Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -62,6 +64,7 @@ public class Fragment_Now_Playing extends Fragment {
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
+        session_management=new Session_Management(getContext());
         int width = size.x;
         int height = size.y;
         setHasOptionsMenu(true);
@@ -132,10 +135,11 @@ public class Fragment_Now_Playing extends Fragment {
             public void onItemClick(View v, final int position) {
 
                 Intent intent=new Intent(getActivity().getBaseContext(),Activity_Movie_Detail.class);
-                sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getContext());
-                SharedPreferences.Editor editor=sharedPreferences.edit();
-                editor.putInt("movie_id",list.get(position).getId());
-                editor.commit();
+                //sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getContext());
+                //SharedPreferences.Editor editor=sharedPreferences.edit();
+                //editor.putInt("MOVIE_ID",list.get(position).getId());
+               // editor.commit();
+                session_management.movie_id(list.get(position).getId());
                 getActivity().startActivity(intent);
             }
         });
@@ -150,10 +154,8 @@ public class Fragment_Now_Playing extends Fragment {
             public void onItemClick(View v, int position) {
 
                 Intent intent=new Intent(getActivity().getBaseContext(),Activity_Movie_Detail.class);
-                sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getContext());
-                SharedPreferences.Editor editor=sharedPreferences.edit();
-                editor.putInt("movie_id",list.get(position).getId());
-                editor.commit();
+                session_management.movie_id(list.get(position).getId());
+
                 //intent.putExtra("id",list.get(position).getId());
                 getActivity().startActivity(intent);
             }

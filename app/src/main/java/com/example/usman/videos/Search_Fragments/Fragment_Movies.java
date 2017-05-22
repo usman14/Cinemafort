@@ -85,7 +85,7 @@ public class Fragment_Movies extends Fragment {
                                 Intent intent=new Intent(getContext(), Activity_Movie_Detail.class);
                                 SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(getContext());
                                 SharedPreferences.Editor editor=sharedPreferences.edit();
-                                editor.putInt("movie_id",Integer.parseInt(list.get(position).getId()));
+                                editor.putInt("MOVIE_ID",Integer.parseInt(list.get(position).getId()));
                                 editor.commit();
                                 getActivity().startActivity(intent);
                             }

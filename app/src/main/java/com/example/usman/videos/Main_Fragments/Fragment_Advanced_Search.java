@@ -268,7 +268,7 @@ result.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).su
                 Intent intent = new Intent(getContext(), Activity_Movie_Detail.class);
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt("movie_id", Integer.parseInt(list.get(position).getId()));
+                editor.putInt("MOVIE_ID", Integer.parseInt(list.get(position).getId()));
                 editor.commit();
                 startActivity(intent);
             }
