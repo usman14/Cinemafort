@@ -15,6 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_alignStart="@+id/img_view_fragment_info_similiar_movies"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="5dp"
         android:layout_below="@id/img_view_fragment_info_similiar_movies"
         android:id="@+id/tv_fragment_info_similiar_movies_title"/>
 

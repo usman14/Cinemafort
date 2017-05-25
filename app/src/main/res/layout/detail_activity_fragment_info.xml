@@ -14,7 +14,7 @@
 
 <RelativeLayout
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="700dp">
+    android:layout_height="@dimen/height_tab">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -24,8 +24,8 @@
         android:layout_marginLeft="10dp">
 
         <ImageButton
-            android:layout_width="@dimen/img_btn_add_width"
-            android:layout_height="@dimen/img_btn_add_height"
+            android:layout_width="@dimen/img_btn_add"
+            android:layout_height="@dimen/img_btn_add"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="40dp"
             android:background="@drawable/greenstar"
@@ -42,12 +42,12 @@
 
 
         <ImageButton
-            android:layout_width="@dimen/img_btn_add_width"
-            android:layout_height="@dimen/img_btn_add_height"
+            android:layout_width="@dimen/img_btn_add"
+            android:layout_height="@dimen/img_btn_add"
             android:id="@+id/img_view_movie_detail_add"
             android:background="@drawable/add"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="60dp"
+            android:layout_marginLeft="@dimen/img_btn_add_margin_left"
             android:layout_toRightOf="@+id/img_btn_movie_detail_rate"/>
 
         <TextView
@@ -60,9 +60,9 @@
             android:layout_alignRight="@+id/img_view_movie_detail_add"/>
         <ImageView
             android:layout_marginTop="10dp"
-            android:layout_width="@dimen/img_btn_add_width"
-            android:layout_height="@dimen/img_btn_add_height"
-            android:layout_marginLeft="50dp"
+            android:layout_width="@dimen/img_btn_add"
+            android:layout_height="@dimen/img_btn_add"
+            android:layout_marginLeft="@dimen/img_btn_add_margin_left"
             android:background="@drawable/moviedb"
             android:layout_toRightOf="@id/img_view_movie_detail_add"
             android:id="@+id/img_view_movie_detail_rating_one"
@@ -105,7 +105,7 @@
         android:text="@string/budget"
         android:textStyle="bold"
         android:layout_marginLeft="10dp"
-
+        android:layout_marginTop="@dimen/margin_top_desc"
         android:layout_below="@+id/tv_movie_detail_one_release_date"
         android:id="@+id/tv_movie_detail_one_budget"/>
     <TextView
@@ -113,6 +113,7 @@
         android:layout_height="wrap_content"
         android:text="@string/revenue"
         android:textStyle="bold"
+        android:layout_marginTop="@dimen/margin_top_desc"
 
         android:layout_marginLeft="10dp"
         android:layout_below="@+id/tv_movie_detail_one_budget"
@@ -128,6 +129,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top_desc"
+
         android:layout_below="@id/tv_movie_detail_one_release_date"
         android:id="@+id/tv_movie_detail_one_budget_one"
         android:layout_toRightOf="@+id/tv_movie_detail_one_budget"/>
@@ -135,6 +138,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_movie_detail_one_budget_one"
+        android:layout_marginTop="@dimen/margin_top_desc"
         android:id="@+id/tv_movie_detail_one_revenue_one"
         android:layout_toRightOf="@+id/tv_movie_detail_one_revenue"/>
 
@@ -151,7 +155,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/rv_trailer_movie_height"
+        android:layout_height="@dimen/rv_trailer_movie_heights"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
 
@@ -171,7 +175,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/rv_similiar_movies_height"
+        android:layout_height="@dimen/rv_similiar_movies_heights"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/tv_movie_detail_one_similiar_movies"

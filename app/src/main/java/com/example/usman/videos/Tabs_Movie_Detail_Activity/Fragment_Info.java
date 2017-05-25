@@ -60,7 +60,7 @@ import rx.schedulers.Schedulers;
  */
 
 public class Fragment_Info extends Fragment {
-    TextView date, director, budget, revenue, ratingone, ratingtwo, description;
+    TextView date, director, budget, revenue, ratingone, description;
     SharedPreferences sharedPreferences;
     int value;
     List<Results> List_trailer;
@@ -127,7 +127,6 @@ public class Fragment_Info extends Fragment {
 
     public void Get_Widgets(View v) {
         ratingone = (TextView) v.findViewById(R.id.tv_movie_detail_one_rating_one);
-        ratingtwo = (TextView) v.findViewById(R.id.tv_movie_detail_one_rating_two);
         date = (TextView) v.findViewById(R.id.tv_movie_detail_one_dvd_release_date_one);
         director = (TextView) v.findViewById(R.id.tv_movie_detail_one_director_one);
         budget = (TextView) v.findViewById(R.id.tv_movie_detail_one_budget_one);
@@ -160,7 +159,6 @@ public class Fragment_Info extends Fragment {
                     @Override
                     public void onNext(MovieMovie movieMovie) {
                         ratingone.setText(String.valueOf(movieMovie.getVoteAverage()));
-                        //ratingtwo.setText(String.valueOf(movieMovie.getPopularity().shortValue()));
                         description.setText(movieMovie.getOverview());
                         date.setText(movieMovie.getReleaseDate());
                         //director.setText(movieMovie.get);

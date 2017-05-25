@@ -38,4 +38,14 @@
     <dimen name="rv_trailer_movie_height">130dp</dimen>
     <dimen name="rv_similiar_movies_height">200dp</dimen>
     <dimen name="tv_very_big_heading">22dp</dimen>
+    <dimen name="height_tab">700dp</dimen>
+    <dimen name="img_btn_add">30dp</dimen>
+    <dimen name="margin_top_desc">5dp</dimen>
+    <dimen name="rv_trailer_movie_heights">130dp</dimen>
+    <dimen name="rv_similiar_movies_heights">200dp</dimen>
+    <dimen name="img_btn_add_margin_left">60dp</dimen>
+    <dimen name="img_view_movie_big_pic_heights">250dp</dimen>
+    <dimen name="rl_discover_heights">50dp</dimen>
+    <dimen name="tv_discover_margin_lefts">120dp</dimen>
+    <dimen name="circlular_view_cast_heights">100dp</dimen>
 </resources>

@@ -61,7 +61,7 @@ import rx.schedulers.Schedulers;
  */
 
 public class TV_Shows_Fragment_Info extends Fragment {
-    TextView date, director, budget, revenue, ratingone, ratingtwo, description;
+    TextView date, director, budget, revenue, ratingone, description;
     SharedPreferences sharedPreferences;
     List<Tv_Shows_trailer_Results> List_trailer;
     List<Similiar_Movie_Results> List_similiar_movies;
@@ -112,7 +112,6 @@ public class TV_Shows_Fragment_Info extends Fragment {
 
     public void Get_Widgets(View v) {
         ratingone = (TextView) v.findViewById(R.id.tv_movie_detail_one_rating_one);
-        ratingtwo = (TextView) v.findViewById(R.id.tv_movie_detail_one_rating_two);
         date = (TextView) v.findViewById(R.id.tv_movie_detail_one_dvd_release_date_one);
         director = (TextView) v.findViewById(R.id.tv_movie_detail_one_director_one);
         budget = (TextView) v.findViewById(R.id.tv_movie_detail_one_budget_one);
