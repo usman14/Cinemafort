@@ -5,7 +5,7 @@
     android:id="@+id/fragment_web_api"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.usman.videos.Main_Activities.Activity_Movie_Detail">
+    tools:context="com.cinemafortlatest.usman.videos.Main_Activities.Activity_Movie_Detail">
 
     <WebView
         android:id="@+id/wv_WebApi_Authorise"
