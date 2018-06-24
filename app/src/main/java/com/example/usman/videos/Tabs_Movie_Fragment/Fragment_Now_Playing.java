@@ -64,7 +64,7 @@ public class Fragment_Now_Playing extends Fragment {
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        session_management=new Session_Management(getContext());
+        session_management=new Session_Management();
         int width = size.x;
         int height = size.y;
         setHasOptionsMenu(true);
@@ -139,7 +139,7 @@ public class Fragment_Now_Playing extends Fragment {
                 //SharedPreferences.Editor editor=sharedPreferences.edit();
                 //editor.putInt("MOVIE_ID",list.get(position).getId());
                // editor.commit();
-                session_management.movie_id(list.get(position).getId());
+                session_management.movie_id(list.get(position).getId(),getContext());
                 getActivity().startActivity(intent);
             }
         });
@@ -154,7 +154,7 @@ public class Fragment_Now_Playing extends Fragment {
             public void onItemClick(View v, int position) {
 
                 Intent intent=new Intent(getActivity().getBaseContext(),Activity_Movie_Detail.class);
-                session_management.movie_id(list.get(position).getId());
+                session_management.movie_id(list.get(position).getId(),getContext());
 
                 //intent.putExtra("id",list.get(position).getId());
                 getActivity().startActivity(intent);

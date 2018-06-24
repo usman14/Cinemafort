@@ -58,7 +58,7 @@ public class Fragment_Popular extends Fragment {
         isProductViewAsList=true;
         View v = inflater.inflate(R.layout.recycler_view_simple, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.rv_fragment_cast);
-        session_management=new Session_Management(getContext());
+        session_management=new Session_Management();
 
         setHasOptionsMenu(true);
         isProductViewAsList=true;
@@ -123,7 +123,7 @@ public class Fragment_Popular extends Fragment {
             public void onItemClick(View v, final int position) {
 
                 Intent intent=new Intent(getActivity().getBaseContext(),Activity_Movie_Detail.class);
-                session_management.movie_id(list.get(position).getId());
+                session_management.movie_id(list.get(position).getId(),getContext());
 
                 getActivity().startActivity(intent);
             }
@@ -139,7 +139,7 @@ public class Fragment_Popular extends Fragment {
             public void onItemClick(View v, int position) {
 
                 Intent intent=new Intent(getActivity().getBaseContext(),Activity_Movie_Detail.class);
-                session_management.movie_id(list.get(position).getId());
+                session_management.movie_id(list.get(position).getId(),getContext());
 
                 getActivity().startActivity(intent);
             }

@@ -51,7 +51,7 @@ public class TV_Shows_Fragment_Episodes extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.recycler_view_simple,container,false);
         rv =(RecyclerView)v.findViewById(R.id.rv_fragment_cast);
-        session_management=new Session_Management(getContext());
+        session_management=new Session_Management();
         sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getContext());
         tv_show_id =sharedPreferences.getInt("TV_SHOW_ID",0);
         Get_Data();
@@ -84,7 +84,7 @@ public class TV_Shows_Fragment_Episodes extends Fragment {
                             @Override
                             public void onItemClick(View v, int position) {
                                 Intent intent=new Intent(getActivity().getBaseContext(),Activity_Cast.class);
-                                session_management.cast_id(Integer.parseInt(list.get(position).getId()));
+                                session_management.cast_id(Integer.parseInt(list.get(position).getId()),getContext());
 
                                 getActivity().startActivity(intent);
                             }

@@ -372,19 +372,27 @@ public class TV_Shows_Fragment_Info extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 if(which==1)
                 {
-                    Long count=realm.where(Realm_Favourite_List.class).equalTo("TV_SHOW_ID",tv_show_id).count();
+                    Long count=realm.where(Realm_Watch_List.class).equalTo("tv_show_id",tv_show_id).count();
                     if(count==0)
                     {
                         realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
 
-                                Realm_Favourite_List realm_favourite_list=realm.createObject(Realm_Favourite_List.class);
-                                realm_favourite_list.setTitle(title);
-                                realm_favourite_list.setTV_SHOW_ID(tv_show_id);
-                                realm_favourite_list.setYear(year);
-                                realm_favourite_list.setImage_path(image_path);
-                                realm_favourite_list.setRating(rating);
+                                Realm_Watch_List realm_watch_list=realm.createObject(Realm_Watch_List.class);
+                                realm_watch_list.setTitle(title);
+                                realm_watch_list.setTv_show_id(tv_show_id);
+                                realm_watch_list.setYear(year);
+                                realm_watch_list.setImage_path(image_path);
+                                realm_watch_list.setRating(rating);
+                                Number currentIdNum = realm.where(Realm_Watch_List.class).max(("app_id"));
+                                int nextId;
+                                if (currentIdNum == null) {
+                                    nextId = 1;
+                                } else {
+                                    nextId = currentIdNum.intValue() + 1;
+                                }
+                                realm_watch_list.setApp_id(nextId);
                             }
                         });
                         Toast.makeText(getContext(),"Successfully Added",Toast.LENGTH_LONG).show();
@@ -400,7 +408,7 @@ public class TV_Shows_Fragment_Info extends Fragment {
 
                 else
                 {
-                    Long count=realm.where(Realm_Watch_List.class).equalTo("TV_SHOW_ID",tv_show_id).count();
+                    Long count=realm.where(Realm_Watch_List.class).equalTo("tv_show_id",tv_show_id).count();
 
                     if(count==0)
                     {
@@ -408,12 +416,20 @@ public class TV_Shows_Fragment_Info extends Fragment {
                             @Override
                             public void execute(Realm realm) {
 
-                                Realm_Watch_List realm_favourite_list=realm.createObject(Realm_Watch_List.class);
+                                Realm_Favourite_List realm_favourite_list=realm.createObject(Realm_Favourite_List.class);
                                 realm_favourite_list.setTitle(title);
-                                realm_favourite_list.setTV_SHOW_ID(tv_show_id);
+                                realm_favourite_list.setTv_show_id(tv_show_id);
                                 realm_favourite_list.setYear(year);
                                 realm_favourite_list.setImage_path(image_path);
                                 realm_favourite_list.setRating(rating);
+                                Number currentIdNum = realm.where(Realm_Favourite_List.class).max(("app_id"));
+                                int nextId;
+                                if (currentIdNum == null) {
+                                    nextId = 1;
+                                } else {
+                                    nextId = currentIdNum.intValue() + 1;
+                                }
+                                realm_favourite_list.setApp_id(nextId);
 
                             }
                         });

@@ -19,12 +19,15 @@ import com.example.usman.videos.Main_Fragments.Fragment_Popular_People;
 import com.example.usman.videos.Main_Fragments.Fragment_TV_Shows;
 import com.example.usman.videos.R;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 public class Activity_Main extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
     DrawerLayout mDrawerLayout;
     NavigationView mNavigationView;
     FragmentManager mFragmentManager;
     FragmentTransaction mFragmentTransaction;
-
+    Realm realm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,8 +43,17 @@ public class Activity_Main extends AppCompatActivity  implements NavigationView.
 
         mDrawerToggle.syncState();
 
+        Realm.init(this);
+        try {
+            realm = Realm.getDefaultInstance();
 
+        } catch (Exception e) {
 
+            RealmConfiguration config = new RealmConfiguration.Builder()
+                    .deleteRealmIfMigrationNeeded()
+                    .build();
+            realm = Realm.getInstance(config);
+        }
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.containerView,new Fragment_Movies()).commit();

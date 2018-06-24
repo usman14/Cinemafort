@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,26 +13,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.usman.videos.ADAPTERS.Movie_Cast_Adapter;
-import com.example.usman.videos.ADAPTERS.Movie_Review_Adapter;
 import com.example.usman.videos.INTERFACES.ApiInterface;
 import com.example.usman.videos.INTERFACES.Listener;
 import com.example.usman.videos.Main_Activities.Activity_Cast;
-import com.example.usman.videos.Main_Activities.Activity_Movie_Detail;
 import com.example.usman.videos.POJO.CastCrew;
 import com.example.usman.videos.POJO.Cast_one;
-import com.example.usman.videos.POJO.Review;
-import com.example.usman.videos.POJO.Review_Results;
 import com.example.usman.videos.R;
 import com.example.usman.videos.UTILITIES.ApiClient;
 import com.example.usman.videos.UTILITIES.Global;
 import com.example.usman.videos.UTILITIES.Session_Management;
 
-import java.util.Arrays;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -56,7 +47,7 @@ public class Fragment_Cast extends Fragment{
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.recycler_view_simple,container,false);
         recyclerView=(RecyclerView)v.findViewById(R.id.rv_fragment_cast) ;
-            session_management=new Session_Management(getContext());
+            session_management=new Session_Management();
         sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getContext());
         movieid=sharedPreferences.getInt("MOVIE_ID",0);
              id=String.valueOf(movieid);
@@ -87,7 +78,7 @@ public class Fragment_Cast extends Fragment{
                             public void onItemClick(View v, int position) {
 
                                 Intent intent = new Intent(getActivity().getBaseContext(), Activity_Cast.class);
-                                session_management.cast_id(list.get(position).getId());
+                                session_management.cast_id(list.get(position).getId(),getContext());
                                 getActivity().startActivity(intent);
                             }
                         });

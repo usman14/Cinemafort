@@ -65,7 +65,7 @@ public class Cast_Tv_Shows_Adapter extends RecyclerView.Adapter<Cast_Tv_Shows_Ad
             super(itemView);
             imageView=(ImageView)itemView.findViewById(R.id.img_view_movie_adapter_gridview);
             tv=(TextView)itemView.findViewById(R.id.tv_movie_adapter_name_gridview);
-            relativeLayout=(ConstraintLayout)itemView.findViewById(R.id.rl_rv_item_movie_gridview);
+            relativeLayout=(ConstraintLayout) itemView.findViewById(R.id.rl_rv_item_movie_gridview);
         }
     }
 }

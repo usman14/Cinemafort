@@ -27,8 +27,8 @@
     <dimen name="circlular_view_cast_height">100dp</dimen>
     <dimen name="rl_discover_height">50dp</dimen>
     <dimen name="tv_discover_margin_top">15dp</dimen>
-    <dimen name="img_view_arrow_discover_width">10dp</dimen>
-    <dimen name="img_view_arrow_discover_height">10dp</dimen>
+    <dimen name="img_view_arrow_discover_width">14dp</dimen>
+    <dimen name="img_view_arrow_discover_height">14dp</dimen>
     <dimen name="tv_discover_margin_left">40dp</dimen>
     <dimen name="rv_discover_margin_left">15dp</dimen>
     <dimen name="rv_discover_margin_top">15dp</dimen>
@@ -48,4 +48,6 @@
     <dimen name="rl_discover_heights">50dp</dimen>
     <dimen name="tv_discover_margin_lefts">120dp</dimen>
     <dimen name="circlular_view_cast_heights">100dp</dimen>
+    <dimen name="btn_size_advance_search">14sp</dimen>
+
 </resources>

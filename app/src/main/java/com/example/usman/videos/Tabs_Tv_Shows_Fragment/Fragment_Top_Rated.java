@@ -61,7 +61,7 @@ public class Fragment_Top_Rated extends Fragment {
 
         View v = inflater.inflate(R.layout.recycler_view_simple, container, false);
         rv = (RecyclerView) v.findViewById(R.id.rv_fragment_cast);
-        session_management=new Session_Management(getContext());
+        session_management=new Session_Management();
 
         setHasOptionsMenu(true);
         isProductViewAsList=true;
@@ -111,7 +111,7 @@ public class Fragment_Top_Rated extends Fragment {
             @Override
             public void onItemClick(View v, int position) {
                 Intent intent=new Intent(getActivity().getBaseContext(),Activity_Tv_Shows_Detail.class);
-                session_management.tv_show_id(Integer.parseInt(list.get(position).getId()));
+                session_management.tv_show_id(Integer.parseInt(list.get(position).getId()),getContext());
 
                 getActivity().startActivity(intent);
             }
@@ -125,7 +125,7 @@ public class Fragment_Top_Rated extends Fragment {
         gridview_adapter=new Tv_Shows_List_Adapter_GridView(getContext(), list, new Listener() {
             @Override
             public void onItemClick(View v, int position) {
-                session_management.tv_show_id(Integer.parseInt(list.get(position).getId()));
+                session_management.tv_show_id(Integer.parseInt(list.get(position).getId()),getContext());
 
             }
         });

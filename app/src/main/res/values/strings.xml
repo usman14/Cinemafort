@@ -35,4 +35,6 @@
     <string name="all">ALL</string>
     <string name="sort">Sort</string>
     <string name="similiar_shows">Similiar Shows</string>
+    <string name="Category">Category</string>
+    <string name="Sortby">Sort By</string>
 </resources>

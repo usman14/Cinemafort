@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,7 +52,7 @@ import rx.schedulers.Schedulers;
  */
 
 public class Fragment_Advanced_Search extends Fragment {
-    TextView tv_yearone, tv_yeartwo, tv_category,tv_sorting;
+    Button btn_yearone, btn_yeartwo, btn_category,btn_sorting;
     RecyclerView rv;
     List<Discover_Results> list;
     Discover_Results[] arraylist;
@@ -61,7 +63,7 @@ public class Fragment_Advanced_Search extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v=inflater.inflate(R.layout.fragment_discover,container,false);
+        View v=inflater.inflate(R.layout.search_advanced,container,false);
         setHasOptionsMenu(true);
         Get_Widgets(v);
         Get_Results();
@@ -71,18 +73,16 @@ public class Fragment_Advanced_Search extends Fragment {
 
 
     private void Get_Widgets(View v) {
-        tv_yearone =(TextView)v.findViewById(R.id.tv_fragment_discover_year_one);
-        tv_yeartwo =(TextView)v.findViewById(R.id.tv_fragment_discover_year_two);
-        tv_category =(TextView)v.findViewById(R.id.tv_fragment_discover_category);
-        rv=(RecyclerView)v.findViewById(R.id.rv_fragment_discover);
-        tv_sorting=(TextView)v.findViewById(R.id.tv_fragment_discover_sorting);
-        sorting="popularity.desc";
-        tv_sorting.setText(R.string.sort);
-        tv_yearone.setText(R.string.date_2017);
-        tv_yeartwo.setText(R.string.date_2017);
-        tv_category.setText(R.string.all);
+        btn_yearone =(Button) v.findViewById(R.id.btn_fragment_discover_year_one);
+        btn_yeartwo =(Button) v.findViewById(R.id.btn_fragment_discover_year_two);
 
-        tv_yearone.setOnClickListener(new View.OnClickListener() {
+        btn_category=(Button) v.findViewById(R.id.btn_fragment_discover_category);
+
+        btn_sorting =(Button) v.findViewById(R.id.btn_fragment_discover_genre);
+        rv=(RecyclerView)v.findViewById(R.id.rv_new_fragment_discover);
+        sorting="popularity.desc";
+
+        btn_yearone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ArrayList<String> list = new ArrayList<>();
@@ -97,7 +97,7 @@ public class Fragment_Advanced_Search extends Fragment {
                 builder.setItems(cs, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                    tv_yearone.setText(cs[which]);
+                    btn_yearone.setText(cs[which]);
                         Get_Results();
 
                     }
@@ -113,7 +113,7 @@ public class Fragment_Advanced_Search extends Fragment {
             }
         });
 
-        tv_yeartwo.setOnClickListener(new View.OnClickListener() {
+        btn_yeartwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ArrayList<String> list = new ArrayList<>();
@@ -128,7 +128,7 @@ public class Fragment_Advanced_Search extends Fragment {
                 builder.setItems(cs, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                    tv_yeartwo.setText(cs[which]);
+                    btn_yeartwo.setText(cs[which]);
                         Get_Results();
 
                     }
@@ -144,7 +144,7 @@ public class Fragment_Advanced_Search extends Fragment {
             }
         });
 
-        tv_sorting.setOnClickListener(new View.OnClickListener() {
+        btn_sorting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ArrayList<String> list = new ArrayList<>();
@@ -159,7 +159,7 @@ public class Fragment_Advanced_Search extends Fragment {
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                    tv_sorting.setText(items[which]);
+                    btn_sorting.setText(items[which]);
                        sorting= Utilites.Sorting_Order(which);
 
                         Get_Results();
@@ -175,7 +175,7 @@ public class Fragment_Advanced_Search extends Fragment {
                 alert.show();
                 alert.getWindow().setLayout(350, 900);
              }
-        });tv_category.setOnClickListener(new View.OnClickListener() {
+        });btn_category.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ArrayList<String> list = new ArrayList<>();
@@ -196,10 +196,12 @@ public class Fragment_Advanced_Search extends Fragment {
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                    tv_category.setText(items[which]);
+                    btn_category.setText(items[which]);
                         if(which!=0)
                         {
                             category=item[which-1];
+                            Log.d("file", "onCreate() Restoring previous state");
+
                         }
 
                         else
@@ -228,20 +230,21 @@ public class Fragment_Advanced_Search extends Fragment {
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
         rx.Observable<Discover_Pojo> result;
-        if (Integer.valueOf(tv_yearone.getText().toString()) >= (Integer.parseInt(tv_yeartwo.getText().toString()))) {
-            tv_yearone.setText(tv_yeartwo.getText());
+        if (Integer.valueOf(btn_yearone.getText().toString()) >= (Integer.parseInt(btn_yeartwo.getText().toString()))) {
+            btn_yearone.setText(btn_yeartwo.getText());
         }
-        if (Integer.valueOf(tv_yeartwo.getText().toString()) <= (Integer.parseInt(tv_yearone.getText().toString()))) {
-            tv_yeartwo.setText(tv_yearone.getText());
+        if (Integer.valueOf(btn_yeartwo.getText().toString()) <= (Integer.parseInt(btn_yearone.getText().toString()))) {
+            btn_yeartwo.setText(btn_yearone.getText());
         }
         if (category == 0) {
-            result = apiInterface.getdiscover(Global.key, "en-US", tv_sorting.getText().toString(), false, false,
-                    Integer.valueOf(tv_yearone.getText().toString()),
-                    Integer.valueOf(tv_yeartwo.getText().toString()), sorting);
+            result = apiInterface.getdiscover(Global.key, "en-US", btn_sorting.getText().toString(), false, false,
+                    Integer.valueOf(btn_yearone.getText().toString()),
+                    Integer.valueOf(btn_yeartwo.getText().toString()), sorting);
         } else {
-            result = apiInterface.getdiscover_genre(Global.key, "en-US", tv_sorting.getText().toString(), false, false,
-                    Integer.valueOf(tv_yearone.getText().toString()),
-                    Integer.valueOf(tv_yeartwo.getText().toString()), category, sorting);
+            result = apiInterface.getdiscover_genre(Global.key, "en-US", btn_sorting.getText().toString(), false, false,
+                    Integer.valueOf(btn_yearone.getText().toString()),
+                    Integer.valueOf(btn_yeartwo.getText().toString()), category, sorting);
+            Log.d("cat",String.valueOf(category));
 
         }
 result.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Discover_Pojo>() {
