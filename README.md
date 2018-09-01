@@ -25,13 +25,13 @@ This is an android app which I made from scratch as a step towards enhanching my
 This app uses The Movie Database API to retrieve movies. You must provide your own API key in order to build the app. When you get it, just paste it to: app/build.
 
 
-<img src="app/src/main/res/drawable-v21/cinemaone.png" width="700" height="400">
+<img src="app/src/main/res/drawable/cinemaone.png" width="700" height="400">
 
 
-<img src="app/src/main/res/drawable-v21/cinematwo.png" width="700" height="400">
+<img src="app/src/main/res/drawable/cinematwo.png" width="700" height="400">
 
 
-<img src="app/src/main/res/drawable-v21/cinemathree.png" width="700" height="400">
+<img src="app/src/main/res/drawable/cinemathree.png" width="700" height="400">
 
 
 ### Libraries
