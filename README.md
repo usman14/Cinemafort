@@ -5,9 +5,6 @@ The fastest, coolest path to the largest collection of movies, actors and shows.
 This app contains detailed information about movies, Tv Shows and Actor including ratings, reviews, trailers, cast, similar movies and many more options.
 
 
-Logo
-
-
 ## Motivation
 
 
