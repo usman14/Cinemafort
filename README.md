@@ -20,11 +20,6 @@ This is an android app which I made from scratch as a step towards enhanching my
 - Watch trailers
 - Read reviews
 
-
-#### How to Work with the Source
-This app uses The Movie Database API to retrieve movies. You must provide your own API key in order to build the app. When you get it, just paste it to: app/build.
-
-
 <img src="app/src/main/res/drawable/cinemaone.png" width="700" height="400">
 
 
@@ -32,6 +27,9 @@ This app uses The Movie Database API to retrieve movies. You must provide your o
 
 
 <img src="app/src/main/res/drawable/cinemathree.png" width="700" height="400">
+
+#### How to Work with the Source
+This app uses The Movie Database API to retrieve movies. You must provide your own API key in order to build the app. When you get it, just paste it to: app/build.
 
 
 ### Libraries
